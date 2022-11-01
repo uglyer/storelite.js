@@ -9,7 +9,7 @@ features:
     title: 高性能
   - icon: https://gw.alipayobjects.com/zos/bmw-prod/d1ee0c6f-5aed-4a45-a507-339a4bfe076c/k7bjsocq_w144_h144.png
     title: 异步友好
-footer: Open-source MIT Licensed | Copyright © 2022<br />Powered by [dumi](https://d.umijs.org)
+footer: Open-source MIT Licensed | Copyright © 2022<br />Powered by [StoreLite.js](https://github.com/uglyer/storelite.js)
 ---
 
 ## 安装
