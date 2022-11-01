@@ -1,0 +1,27 @@
+{
+  "name": "storelite.js",
+  "version": "1.0.0",
+  "description": "State store based on sql.js (sqlite), support web worker and react binding. 基于 sql.js(sqlite)实现的状态仓库，支持web worker、react 绑定",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uglyer/storelite.js.git"
+  },
+  "keywords": [
+    "store",
+    "sql.js",
+    "sqlite",
+    "state",
+    "store",
+    "worker"
+  ],
+  "author": "uglyer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uglyer/storelite.js/issues"
+  },
+  "homepage": "https://github.com/uglyer/storelite.js#readme"
+}
