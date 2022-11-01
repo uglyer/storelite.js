@@ -2,9 +2,26 @@
   "name": "storelite.js",
   "version": "1.0.0",
   "description": "State store based on sql.js (sqlite), support web worker and react binding. 基于 sql.js(sqlite)实现的状态仓库，支持web worker、react 绑定",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "/dist",
+    "/examples",
+    "package.json",
+    "README.md",
+    "ChangeLog.md"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "dumi dev",
+    "docs:build": "dumi build",
+    "docs:deploy": "gh-pages -d docs-dist",
+    "build": "father-build",
+    "deploy": "npm run docs:build && npm run docs:deploy",
+    "release": "npm run build && npm publish",
+    "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
+    "test": "umi-test",
+    "test:coverage": "umi-test --coverage"
   },
   "repository": {
     "type": "git",
@@ -24,7 +41,28 @@
     "url": "https://github.com/uglyer/storelite.js/issues"
   },
   "homepage": "https://github.com/uglyer/storelite.js#readme",
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  },
   "dependencies": {
     "sql.js": "^1.8.0"
+  },
+  "devDependencies": {
+    "@umijs/test": "^4.0.28",
+    "dumi": "^1.1.49",
+    "father-build": "^1.22.5",
+    "gh-pages": "^4.0.0",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "react": "^18.2.0",
+    "yorkie": "^2.0.0"
   }
 }
