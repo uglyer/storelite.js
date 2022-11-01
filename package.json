@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/uglyer/storelite.js/issues"
   },
-  "homepage": "https://github.com/uglyer/storelite.js#readme"
+  "homepage": "https://github.com/uglyer/storelite.js#readme",
+  "dependencies": {
+    "sql.js": "^1.8.0"
+  }
 }
