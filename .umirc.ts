@@ -24,7 +24,7 @@ export default defineConfig({
       .use('url-loader')
       .loader('url-loader')
       .options({
-        name: 'assets/wasm/[hash:16].[ext]',
+        name: 'assets/wasm/[name].[hash:16].[ext]',
         limit: 1,
       })
       .end()
