@@ -1,7 +1,7 @@
 ---
 hero:
   title: StoreLite.js
-  desc: 用于异步功能的互斥锁
+  desc: State store based on sql.js (sqlite), support web worker and react binding. <br/>基于 sql.js(sqlite)实现的状态仓库，支持web worker、react 绑定
 features:
   - icon: https://gw.alipayobjects.com/zos/bmw-prod/881dc458-f20b-407b-947a-95104b5ec82b/k79dm8ih_w144_h144.png
     title: 开箱即用
