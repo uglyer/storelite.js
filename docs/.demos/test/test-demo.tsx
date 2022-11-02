@@ -7,6 +7,8 @@ import React from 'react';
 import initSqlJs from 'sql.js/dist/sql-wasm.js';
 // @ts-ignore
 import wasmUrl from 'sql.js/dist/sql-wasm.wasm';
+// @ts-ignore
+import json from './test.json';
 
 console.log(wasmUrl);
 
@@ -30,6 +32,74 @@ INSERT INTO hello VALUES (1, 'world');";
   db.exec(sqlstr); // Run the query without returning anything
   const res = db.exec('SELECT * FROM hello');
   console.log(res);
+
+  const tableSql = `
+    create table store_data
+    (
+      id         integer not null primary key,
+      table_name char,
+      content    json
+    )`;
+  db.exec(tableSql);
+  const insertSql = json.panoramaList
+    .map((it: any) => {
+      return `insert into store_data
+              values (null, "panoramas", '${JSON.stringify(it)}');`;
+    })
+    .join(';');
+  console.time('insert');
+  const count = 100;
+  for (let i = 0; i < count; i++) {
+    db.exec(insertSql);
+  }
+  console.timeEnd('insert');
+
+  console.time('query');
+  const storeData = db.exec(`select *
+                             from store_data`);
+  console.timeEnd('query');
+  console.log(storeData);
+  console.time('query');
+  console.log(
+    db.exec(`select key
+                       from store_data, json_each(content)
+                       group by key`),
+  );
+  console.timeEnd('query');
+  // ['disabled', 'height', 'id', 'position', 'rotation', 'url', 'visiblePanoramas']
+  const createView = `
+CREATE VIEW panorama_view AS
+SELECT store_data.id as uuid, json_extract(content, '$.disabled')     as disabled,
+       json_extract(content, '$.height')    as likes,
+       json_extract(content, '$.id') as id,
+       json_extract(content, '$.position') as position,
+       json_extract(content, '$.rotation') as rotation,
+       json_extract(content, '$.url') as url,
+       json_extract(content, '$.visiblePanoramas') as visiblePanoramas
+FROM store_data where table_name = 'panoramas';
+  `;
+  db.exec(createView);
+  console.time('query in view');
+  const viewResult = db.exec(`select *
+           from panorama_view `);
+  console.timeEnd('query in view');
+  console.log(viewResult);
+  console.time('find in table');
+  db.exec(`select count(*)
+           from store_data where content like '%93c3cd8e9f78ea1c3be8832c3079812c84602baa5ffd69840a785473946c1321%'`);
+  console.timeEnd('find in table');
+  console.time('find in view');
+  db.exec(`select count(*)
+           from panorama_view where url like '%93c3cd8e9f78ea1c3be8832c3079812c84602baa5ffd69840a785473946c1321%'`);
+  console.timeEnd('find in view');
+  // @ts-ignore
+  window['db'] = db;
+  // 8.9k 数据
+  // 搜索 100
+  // json view like 数据 60.516357421875 ms
+  // 全表搜索
+  // json view url like 558.619873046875 ms
+  // store_table content like 363.0849609375 ms
 }
 
 init();
