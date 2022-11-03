@@ -41,6 +41,22 @@ INSERT INTO hello VALUES (1, 'world');";
       content    json
     )`;
   db.exec(tableSql);
+  db.create_function(
+    'js_store_data_change',
+    (type: number, tableName: string, id: number) => {
+      // console.log("onStoreDataChange",data);
+    },
+  );
+  db.exec(`
+  CREATE TRIGGER "main"."store_data_change_trigger"
+  AFTER INSERT
+  ON "store_data"
+  WHEN new.table_name = 'panoramas'
+  BEGIN
+    -- Type the SQL Here.
+    select js_store_data_change(1,'panoramas',new.id) as "";
+  END;
+  `);
   const insertSql = json.panoramaList
     .map((it: any) => {
       return `insert into store_data
@@ -62,8 +78,8 @@ INSERT INTO hello VALUES (1, 'world');";
   console.time('query');
   console.log(
     db.exec(`select key
-                       from store_data, json_each(content)
-                       group by key`),
+             from store_data, json_each(content)
+             group by key`),
   );
   console.timeEnd('query');
   // ['disabled', 'height', 'id', 'position', 'rotation', 'url', 'visiblePanoramas']
@@ -81,16 +97,18 @@ FROM store_data where table_name = 'panoramas';
   db.exec(createView);
   console.time('query in view');
   const viewResult = db.exec(`select *
-           from panorama_view `);
+                              from panorama_view `);
   console.timeEnd('query in view');
   console.log(viewResult);
   console.time('find in table');
   db.exec(`select count(*)
-           from store_data where content like '%93c3cd8e9f78ea1c3be8832c3079812c84602baa5ffd69840a785473946c1321%'`);
+           from store_data
+           where content like '%93c3cd8e9f78ea1c3be8832c3079812c84602baa5ffd69840a785473946c1321%'`);
   console.timeEnd('find in table');
   console.time('find in view');
   db.exec(`select count(*)
-           from panorama_view where url like '%93c3cd8e9f78ea1c3be8832c3079812c84602baa5ffd69840a785473946c1321%'`);
+           from panorama_view
+           where url like '%93c3cd8e9f78ea1c3be8832c3079812c84602baa5ffd69840a785473946c1321%'`);
   console.timeEnd('find in view');
   // @ts-ignore
   window['db'] = db;
