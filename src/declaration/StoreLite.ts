@@ -31,7 +31,7 @@ export interface StoreLiteSync<
  * @author uglyer
  * @date 2022/11/3 14:00
  */
-export interface StoreLite<
+export interface StoreLiteAsync<
   D = {},
   L = { [key: string]: { id: string } },
   TAG = 'observe',
