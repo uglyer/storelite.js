@@ -14,7 +14,7 @@ export class StoreLiteDynamicFrom {
    * @protected
    */
   protected initDB() {
-    const createTable = `
+    const createTableSql = `
       create table if not exists store_lite_data
       (
         id
@@ -28,6 +28,10 @@ export class StoreLiteDynamicFrom {
         content
         json
       )`;
-    this.db.exec(createTable);
+    this.db.exec(createTableSql);
+    const createIndexSql = `
+      create index store_lite_data_id_table_name_content_index on store_lite_data (id, table_name, content);
+    `;
+    this.db.exec(createIndexSql);
   }
 }
