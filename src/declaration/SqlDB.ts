@@ -3,7 +3,7 @@
  * @author uglyer
  * @date 2022/11/8 22:50
  */
-export interface SqlDB {
+export interface SqlDB extends Object {
   /**
    * 执行语句
    * @param sql
@@ -16,6 +16,18 @@ export interface SqlDB {
    * @param handler
    */
   create_function<T>(funcName: string, handler: T): void;
+}
+
+/**
+ * SqlDB 扩展接口
+ * @author uglyer
+ * @date 2022/11/11 23:19
+ */
+export interface SqlDBExtends extends SqlDB {
+  /**
+   * 是否为 StoreLite 扩展对象
+   */
+  isStoreLite(): boolean;
 }
 
 /**
