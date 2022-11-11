@@ -28,6 +28,49 @@ export interface SqlDBExtends extends SqlDB {
    * 是否为 StoreLite 扩展对象
    */
   isStoreLite(): boolean;
+
+  /**
+   * 查找单条记录, 如果sql语句有多个返回结果, 只取第一个
+   * @param sql
+   */
+  findOne<T>(sql: string): T | null;
+
+  /**
+   * 获取模型操作对象
+   * @param entity
+   */
+  getModel<T>(entity: T): SqlDBModel<T>;
+}
+
+/**
+ * SqlDBModel
+ * @author uglyer
+ * @date 2022/11/11 23:32
+ */
+export interface SqlDBModel<T> {
+  /**
+   * 模型对应的表名
+   */
+  tableName: string;
+
+  /**
+   * 查找单条记录, 如果sql语句有多个返回结果, 只取第一个
+   * @param sql
+   */
+  findOne(sql: string): T | null;
+
+  /**
+   * 查找单条记录, 如果sql语句有多个返回结果, 只取第一个
+   * @param id
+   */
+  findOneById(id: string | number): T | null;
+
+  /**
+   * 通过指定键值查找单条记录, 如果sql语句有多个返回结果, 只取第一个
+   * @param k
+   * @param v
+   */
+  findOneBy<K extends keyof T, V extends T[K]>(k: K, v: V): T | null;
 }
 
 /**
