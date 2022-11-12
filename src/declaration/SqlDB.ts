@@ -115,6 +115,13 @@ export interface SqlDBBasicWhereConditionType<T, C> {
   andLike<K extends keyof T, V extends T[K]>(k: K, v: V): C;
 
   /**
+   * and 条件 in 匹配
+   * @param k
+   * @param list
+   */
+  andIn<K extends keyof T, V extends T[K]>(k: K, list: V[]): C;
+
+  /**
    * and 联合条件
    * @param handler
    */
@@ -140,6 +147,13 @@ export interface SqlDBBasicWhereConditionType<T, C> {
    * @param v
    */
   orLike<K extends keyof T, V extends T[K]>(k: K, v: V): C;
+
+  /**
+   * or 条件 in 匹配
+   * @param k
+   * @param list
+   */
+  orIn<K extends keyof T, V extends T[K]>(k: K, list: V[]): C;
 
   /**
    * or 联合条件
