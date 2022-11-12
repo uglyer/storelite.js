@@ -102,13 +102,104 @@ export interface SqlDBBasicWhereCondition<T> {
    */
   eq<K extends keyof T, V extends T[K]>(
     k: K,
-    v: V,
+    v: V | null,
   ): SqlDBBasicWhereCondition<T>;
 
   /**
    * 条件 全匹配
    */
   eq(model: Partial<T>): SqlDBBasicWhereCondition<T>;
+
+  /**
+   * 条件 为空
+   * @param k
+   */
+  isNull<K extends keyof T>(k: K): SqlDBBasicWhereCondition<T>;
+
+  /**
+   * 条件 不匹配
+   * @param k
+   * @param v
+   */
+  notEq<K extends keyof T, V extends T[K]>(
+    k: K,
+    v: V | null,
+  ): SqlDBBasicWhereCondition<T>;
+
+  /**
+   * 条件 不匹配
+   */
+  notEq(model: Partial<T>): SqlDBBasicWhereCondition<T>;
+
+  /**
+   * 条件 不为空
+   * @param k
+   */
+  notNull<K extends keyof T>(k: K): SqlDBBasicWhereCondition<T>;
+
+  /**
+   * 条件 大于
+   * @param k
+   * @param v
+   */
+  greaterThan<K extends keyof T, V extends T[K]>(
+    k: K,
+    v: V & number,
+  ): SqlDBBasicWhereCondition<T>;
+
+  /**
+   * 条件 大于或等于
+   * @param k
+   * @param v
+   */
+  greaterThanOrEq<K extends keyof T, V extends T[K]>(
+    k: K,
+    v: V & number,
+  ): SqlDBBasicWhereCondition<T>;
+
+  /**
+   * 条件 小于
+   * @param k
+   * @param v
+   */
+  lessThan<K extends keyof T, V extends T[K]>(
+    k: K,
+    v: V & number,
+  ): SqlDBBasicWhereCondition<T>;
+
+  /**
+   * 条件 小于或等于
+   * @param k
+   * @param v
+   */
+  lessThanOrEq<K extends keyof T, V extends T[K]>(
+    k: K,
+    v: V & number,
+  ): SqlDBBasicWhereCondition<T>;
+
+  /**
+   * 条件 小于或等于
+   * @param k
+   * @param start
+   * @param end
+   */
+  betweenAnd<K extends keyof T, V extends T[K]>(
+    k: K,
+    start: V,
+    end: V,
+  ): SqlDBBasicWhereCondition<T>;
+
+  /**
+   * 条件 小于或等于
+   * @param k
+   * @param start
+   * @param end
+   */
+  betweenAnd<K extends keyof T, V extends T[K]>(
+    k: K,
+    start: V,
+    end: V,
+  ): SqlDBBasicWhereCondition<T>;
 
   /**
    * 条件 模糊匹配(需要自行传递匹配符)
@@ -126,6 +217,16 @@ export interface SqlDBBasicWhereCondition<T> {
    * @param list
    */
   in<K extends keyof T, V extends T[K]>(
+    k: K,
+    list: V[],
+  ): SqlDBBasicWhereCondition<T>;
+
+  /**
+   * 条件 in 匹配
+   * @param k
+   * @param list
+   */
+  notIn<K extends keyof T, V extends T[K]>(
     k: K,
     list: V[],
   ): SqlDBBasicWhereCondition<T>;
