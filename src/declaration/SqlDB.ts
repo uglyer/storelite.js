@@ -94,72 +94,60 @@ export interface SqlDBModel<T> {
  * @author uglyer
  * @date 2022/11/12 21:51
  */
-export interface SqlDBBasicWhereConditionType<T> {
+export interface SqlDBBasicWhereConditionType<T, C> {
   /**
    * and 条件 全匹配
    * @param k
    * @param v
    */
-  andEq<K extends keyof T, V extends T[K]>(
-    k: K,
-    v: V,
-  ): SqlDBBasicWhereConditionType<T>;
+  andEq<K extends keyof T, V extends T[K]>(k: K, v: V): C;
 
   /**
    * and 条件 全匹配
    */
-  andEq(model: Partial<T>): SqlDBBasicWhereConditionType<T>;
+  andEq(model: Partial<T>): C;
 
   /**
    * and 条件 模糊匹配(需要自行传递匹配符)
    * @param k
    * @param v
    */
-  andLike<K extends keyof T, V extends T[K]>(
-    k: K,
-    v: V,
-  ): SqlDBBasicWhereConditionType<T>;
+  andLike<K extends keyof T, V extends T[K]>(k: K, v: V): C;
 
   /**
    * and 联合条件
    * @param handler
    */
   andCondition(
-    handler: (condition: SqlDBBasicWhereConditionType<T>) => void,
-  ): SqlDBBasicWhereConditionType<T>;
+    handler: (condition: SqlDBBasicWhereConditionType<T, C>) => void,
+  ): C;
 
   /**
    * or 条件 全匹配
    * @param k
    * @param v
    */
-  orEq<K extends keyof T, V extends T[K]>(
-    k: K,
-    v: V,
-  ): SqlDBBasicWhereConditionType<T>;
+  orEq<K extends keyof T, V extends T[K]>(k: K, v: V): C;
 
   /**
    * or 条件 全匹配
    */
-  orEq(model: Partial<T>): SqlDBBasicWhereConditionType<T>;
+  orEq(model: Partial<T>): C;
 
   /**
    * or 条件 模糊匹配(需要自行传递匹配符)
    * @param k
    * @param v
    */
-  orLike<K extends keyof T, V extends T[K]>(
-    k: K,
-    v: V,
-  ): SqlDBBasicWhereConditionType<T>;
+  orLike<K extends keyof T, V extends T[K]>(k: K, v: V): C;
 
   /**
    * or 联合条件
    * @param handler
    */
   orCondition(
-    handler: (condition: SqlDBBasicWhereConditionType<T>) => void,
-  ): SqlDBBasicWhereConditionType<T>;
+    handler: (condition: SqlDBBasicWhereConditionType<T, C>) => void,
+  ): C;
 }
 
 /**
@@ -168,7 +156,7 @@ export interface SqlDBBasicWhereConditionType<T> {
  * @date 2022/11/12 21:51
  */
 export interface SqlDBWhereConditionSelectList<T>
-  extends SqlDBBasicWhereConditionType<T> {
+  extends SqlDBBasicWhereConditionType<T, SqlDBWhereConditionSelectList<T>> {
   /**
    * 执行查询语句
    */
