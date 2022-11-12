@@ -89,6 +89,11 @@ export interface SqlDBModel<T> {
   selectOne(): SqlDBWhereConditionSelectOne<T>;
 }
 
+/**
+ * SqlDB Where 条件 DSL
+ * @author uglyer
+ * @date 2022/11/12 22:22
+ */
 export interface SqlDBBasicWhereCondition<T> {
   /**
    * 条件 全匹配
@@ -143,6 +148,25 @@ export interface SqlDBBasicWhereConditionType<T, C> {
    * @param handler
    */
   or(handler: (condition: SqlDBBasicWhereCondition<T>) => void): C;
+}
+
+/**
+ * SqlDB 记录数限制
+ * @author uglyer
+ * @date 2022/11/12 22:22
+ */
+export interface SqlDBLimit<C> {
+  /**
+   * 限制记录数
+   * @param offset 过滤多少条数据
+   * @param count 需要多少条数据
+   */
+  limit(offset: number, count: number): C;
+  /**
+   * 限制记录数
+   * @param count 需要多少条数据
+   */
+  limit(count: number): C;
 }
 
 /**
