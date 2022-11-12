@@ -89,6 +89,43 @@ export interface SqlDBModel<T> {
   selectOne(): SqlDBWhereConditionSelectOne<T>;
 }
 
+export interface SqlDBBasicWhereCondition<T> {
+  /**
+   * 条件 全匹配
+   * @param k
+   * @param v
+   */
+  eq<K extends keyof T, V extends T[K]>(
+    k: K,
+    v: V,
+  ): SqlDBBasicWhereCondition<T>;
+
+  /**
+   * 条件 全匹配
+   */
+  eq(model: Partial<T>): SqlDBBasicWhereCondition<T>;
+
+  /**
+   * 条件 模糊匹配(需要自行传递匹配符)
+   * @param k
+   * @param v
+   */
+  like<K extends keyof T, V extends T[K]>(
+    k: K,
+    v: V,
+  ): SqlDBBasicWhereCondition<T>;
+
+  /**
+   * 条件 in 匹配
+   * @param k
+   * @param list
+   */
+  in<K extends keyof T, V extends T[K]>(
+    k: K,
+    list: V[],
+  ): SqlDBBasicWhereCondition<T>;
+}
+
 /**
  * SqlDB Where 条件 DSL
  * @author uglyer
@@ -96,72 +133,16 @@ export interface SqlDBModel<T> {
  */
 export interface SqlDBBasicWhereConditionType<T, C> {
   /**
-   * and 条件 全匹配
-   * @param k
-   * @param v
-   */
-  andEq<K extends keyof T, V extends T[K]>(k: K, v: V): C;
-
-  /**
-   * and 条件 全匹配
-   */
-  andEq(model: Partial<T>): C;
-
-  /**
-   * and 条件 模糊匹配(需要自行传递匹配符)
-   * @param k
-   * @param v
-   */
-  andLike<K extends keyof T, V extends T[K]>(k: K, v: V): C;
-
-  /**
-   * and 条件 in 匹配
-   * @param k
-   * @param list
-   */
-  andIn<K extends keyof T, V extends T[K]>(k: K, list: V[]): C;
-
-  /**
-   * and 联合条件
+   * and 条件
    * @param handler
    */
-  andCondition(
-    handler: (condition: SqlDBBasicWhereConditionType<T, C>) => void,
-  ): C;
+  and(handler: (condition: SqlDBBasicWhereCondition<T>) => void): C;
 
   /**
-   * or 条件 全匹配
-   * @param k
-   * @param v
-   */
-  orEq<K extends keyof T, V extends T[K]>(k: K, v: V): C;
-
-  /**
-   * or 条件 全匹配
-   */
-  orEq(model: Partial<T>): C;
-
-  /**
-   * or 条件 模糊匹配(需要自行传递匹配符)
-   * @param k
-   * @param v
-   */
-  orLike<K extends keyof T, V extends T[K]>(k: K, v: V): C;
-
-  /**
-   * or 条件 in 匹配
-   * @param k
-   * @param list
-   */
-  orIn<K extends keyof T, V extends T[K]>(k: K, list: V[]): C;
-
-  /**
-   * or 联合条件
+   * or 条件
    * @param handler
    */
-  orCondition(
-    handler: (condition: SqlDBBasicWhereConditionType<T, C>) => void,
-  ): C;
+  or(handler: (condition: SqlDBBasicWhereCondition<T>) => void): C;
 }
 
 /**
@@ -183,7 +164,7 @@ export interface SqlDBWhereConditionSelectList<T>
  * @date 2022/11/12 21:51
  */
 export interface SqlDBWhereConditionSelectOne<T>
-  extends SqlDBBasicWhereConditionType<T> {
+  extends SqlDBBasicWhereConditionType<T, SqlDBWhereConditionSelectOne<T>> {
   /**
    * 执行查询语句
    */
