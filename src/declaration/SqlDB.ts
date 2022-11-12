@@ -71,6 +71,121 @@ export interface SqlDBModel<T> {
    * @param v
    */
   findOneBy<K extends keyof T, V extends T[K]>(k: K, v: V): T | null;
+
+  /**
+   * 通过指定键值查找单条记录, 如果sql语句有多个返回结果, 只取第一个
+   * @param model
+   */
+  findOneBy(model: Partial<T>): T | null;
+
+  /**
+   * 根据条件筛选数据(列表)
+   */
+  select(): SqlDBWhereConditionSelectList<T>;
+
+  /**
+   * 根据条件筛选一条记录
+   */
+  selectOne(): SqlDBWhereConditionSelectOne<T>;
+}
+
+/**
+ * SqlDB Where 条件 DSL
+ * @author uglyer
+ * @date 2022/11/12 21:51
+ */
+export interface SqlDBBasicWhereConditionType<T> {
+  /**
+   * and 条件 全匹配
+   * @param k
+   * @param v
+   */
+  andEq<K extends keyof T, V extends T[K]>(
+    k: K,
+    v: V,
+  ): SqlDBBasicWhereConditionType<T>;
+
+  /**
+   * and 条件 全匹配
+   */
+  andEq(model: Partial<T>): SqlDBBasicWhereConditionType<T>;
+
+  /**
+   * and 条件 模糊匹配(需要自行传递匹配符)
+   * @param k
+   * @param v
+   */
+  andLike<K extends keyof T, V extends T[K]>(
+    k: K,
+    v: V,
+  ): SqlDBBasicWhereConditionType<T>;
+
+  /**
+   * and 联合条件
+   * @param handler
+   */
+  andCondition(
+    handler: (condition: SqlDBBasicWhereConditionType<T>) => void,
+  ): SqlDBBasicWhereConditionType<T>;
+
+  /**
+   * or 条件 全匹配
+   * @param k
+   * @param v
+   */
+  orEq<K extends keyof T, V extends T[K]>(
+    k: K,
+    v: V,
+  ): SqlDBBasicWhereConditionType<T>;
+
+  /**
+   * or 条件 全匹配
+   */
+  orEq(model: Partial<T>): SqlDBBasicWhereConditionType<T>;
+
+  /**
+   * or 条件 模糊匹配(需要自行传递匹配符)
+   * @param k
+   * @param v
+   */
+  orLike<K extends keyof T, V extends T[K]>(
+    k: K,
+    v: V,
+  ): SqlDBBasicWhereConditionType<T>;
+
+  /**
+   * or 联合条件
+   * @param handler
+   */
+  orCondition(
+    handler: (condition: SqlDBBasicWhereConditionType<T>) => void,
+  ): SqlDBBasicWhereConditionType<T>;
+}
+
+/**
+ * SqlDB Where 条件 DSL
+ * @author uglyer
+ * @date 2022/11/12 21:51
+ */
+export interface SqlDBWhereConditionSelectList<T>
+  extends SqlDBBasicWhereConditionType<T> {
+  /**
+   * 执行查询语句
+   */
+  do(): T[];
+}
+
+/**
+ * SqlDB Where 条件 DSL
+ * @author uglyer
+ * @date 2022/11/12 21:51
+ */
+export interface SqlDBWhereConditionSelectOne<T>
+  extends SqlDBBasicWhereConditionType<T> {
+  /**
+   * 执行查询语句
+   */
+  do(): T | null;
 }
 
 /**
