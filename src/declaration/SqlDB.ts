@@ -162,6 +162,7 @@ export interface SqlDBLimit<C> {
    * @param count 需要多少条数据
    */
   limit(offset: number, count: number): C;
+
   /**
    * 限制记录数
    * @param count 需要多少条数据
@@ -226,3 +227,13 @@ export interface SqlDBExecResult {
    */
   value: Array<Array<any>>;
 }
+
+/**
+ * 基础类型
+ */
+export type BaseType = string | number | boolean | null;
+
+/**
+ * sql 指令
+ */
+export type SqlDBInstruction = 'eq' | 'in' | 'like';
