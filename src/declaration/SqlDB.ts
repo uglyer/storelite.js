@@ -142,7 +142,7 @@ export interface SqlDBBasicWhereCondition<T> {
    * @param k
    * @param v
    */
-  greaterThan<K extends keyof T, V extends T[K]>(
+  moreThan<K extends keyof T, V extends T[K]>(
     k: K,
     v: V & number,
   ): SqlDBBasicWhereCondition<T>;
@@ -152,7 +152,7 @@ export interface SqlDBBasicWhereCondition<T> {
    * @param k
    * @param v
    */
-  greaterThanOrEq<K extends keyof T, V extends T[K]>(
+  moreThanOrEq<K extends keyof T, V extends T[K]>(
     k: K,
     v: V & number,
   ): SqlDBBasicWhereCondition<T>;
@@ -334,5 +334,5 @@ export type SqlDBInstruction =
   | 'between-and'
   | 'less-than-or-eq'
   | 'less-than'
-  | 'greater-than-or-eq'
-  | 'greater-than';
+  | 'more-than-or-eq'
+  | 'more-than';

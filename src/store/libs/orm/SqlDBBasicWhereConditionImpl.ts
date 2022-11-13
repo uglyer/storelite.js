@@ -135,11 +135,11 @@ export class SqlDBBasicWhereConditionImpl<T>
    * @param k
    * @param v
    */
-  greaterThan<K extends keyof T, V extends T[K]>(
+  moreThan<K extends keyof T, V extends T[K]>(
     k: K,
     v: V & number,
   ): SqlDBBasicWhereCondition<T> {
-    this.list.push(['greater-than', k as string, v as any]);
+    this.list.push(['more-than', k as string, v as any]);
     return this;
   }
 
@@ -148,11 +148,11 @@ export class SqlDBBasicWhereConditionImpl<T>
    * @param k
    * @param v
    */
-  greaterThanOrEq<K extends keyof T, V extends T[K]>(
+  moreThanOrEq<K extends keyof T, V extends T[K]>(
     k: K,
     v: V & number,
   ): SqlDBBasicWhereCondition<T> {
-    this.list.push(['greater-than-or-eq', k as string, v as any]);
+    this.list.push(['more-than-or-eq', k as string, v as any]);
     return this;
   }
 
@@ -306,14 +306,14 @@ function instruction2SqlStmt(
       console.warn('between-and instruction need an array value size is 2', v);
       return null;
     }
-    return SqlString.format(`\`${key}\` BETWEEN ? AND ?`, v);
+    return SqlString.format(`(\`${key}\` BETWEEN ? AND ?)`, v);
   } else if (i == 'less-than-or-eq') {
     return SqlString.format(`\`${key}\` <= ?`, v);
   } else if (i == 'less-than') {
     return SqlString.format(`\`${key}\` < ?`, v);
-  } else if (i == 'greater-than-or-eq') {
+  } else if (i == 'more-than-or-eq') {
     return SqlString.format(`\`${key}\` >= ?`, v);
-  } else if (i == 'greater-than') {
+  } else if (i == 'more-than') {
     return SqlString.format(`\`${key}\` > ?`, v);
   } else {
     console.warn('instruction not support yet', i, v);
