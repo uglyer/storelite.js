@@ -34,3 +34,12 @@ test('not eq to sql', () => {
     "`id` != 'id-value' or `str` IS NOT NULL or `bool` != true",
   );
 });
+
+test('in & not in to sql', () => {
+  const model = new SqlDBBasicWhereConditionImpl<TestModel>()
+    .notIn('time', [4, 5, 6])
+    .in('id', ['1', '2', '3']) as SqlDBBasicWhereConditionImpl<TestModel>;
+  expect(model.toSql('and')).toEqual(
+    "`time` NOT IN (4,5,6) and `id` IN ('1','2','3')",
+  );
+});
