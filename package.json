@@ -20,7 +20,8 @@
     "deploy": "npm run docs:build && npm run docs:deploy",
     "release": "npm run build && npm publish",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
-    "test": "umi-test",
+    "test": "jest --env=node --colors --coverage test",
+    "test-watch": "cross-env NODE_ENV=test jest --experimental-vm-modules --config=jest.config.js --runInBand --watchAll",
     "test:coverage": "umi-test --coverage"
   },
   "repository": {
@@ -58,15 +59,16 @@
   },
   "devDependencies": {
     "@types/jest": "^29.2.2",
-    "@umijs/test": "^3.0.3",
+    "cross-env": "^7.0.3",
     "dumi": "^1.1.49",
     "father-build": "^1.22.5",
     "file-loader": "^6.2.0",
     "gh-pages": "^4.0.0",
-    "jest-matchmedia-mock": "^1.1.0",
+    "jest": "^29.3.1",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
+    "ts-jest": "^29.0.3",
     "url-loader": "^4.1.1",
     "yorkie": "^2.0.0"
   }

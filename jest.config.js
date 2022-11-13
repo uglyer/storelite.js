@@ -1,11 +1,16 @@
 module.exports = {
-  setupFiles: ['<rootDir>/scripts/jest-setup.js'],
-  coveragePathIgnorePatterns: [],
+  verbose: true,
+  clearMocks: false,
+  collectCoverage: false,
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: {
-    // 确保 import {} from 'umi' 正常 work
-    '^@@/dumi/config$':
-      '<rootDir>/packages/preset-dumi/src/fixtures/basic/.umi-test/dumi/config.json',
-    '^dumi/theme$': '<rootDir>/packages/preset-dumi/src/theme/index.ts',
-    '^webpack$': '@umijs/deps/compiled/webpack/webpack.js',
+    // // 确保 import {} from 'umi' 正常 work
+    // '@': '<rootDir>/src',
+    '@/(.*)$': '<rootDir>/src/$1',
   },
+  testMatch: ['<rootDir>/**/*.test.(js|jsx|ts|tsx)'],
+  transform: {
+    '^.+\\.((t|j)sx?)$': 'ts-jest',
+  },
+  transformIgnorePatterns: ['<rootDir>/node_modules/'],
 };

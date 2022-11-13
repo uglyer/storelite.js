@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
     "experimentalDecorators": true,
-    "target": "esnext",
-    "module": "esnext",
+    "target": "es5",
+    "module": "commonjs",
     "moduleResolution": "node",
     "importHelpers": true,
     "jsx": "react",
     "esModuleInterop": true,
+    "strictNullChecks": true,
     "sourceMap": true,
     "baseUrl": "./",
     "strict": true,
@@ -23,6 +24,7 @@
     "dist",
     "typings",
     "**/__test__",
+    "**/*.test.ts",
     "test",
     "docs",
     "tests"
