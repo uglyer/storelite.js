@@ -4,6 +4,8 @@ import {
   SqlDBInstruction,
 } from '@/declaration/SqlDB';
 
+const SqlString = require('sqlstring');
+
 /**
  * SqlDB Where 条件 DSL 实现类
  * @author uglyer
@@ -273,14 +275,14 @@ function instruction2SqlStmt(
 ): string | null {
   if (i == 'eq') {
     if (v === null) {
-      return `${key} IS NULL`;
+      return `\`${key}\` IS NULL`;
     }
-    return `${key} = ${v}`;
+    return SqlString.format(`${key} = ?`, v);
   } else if (i == 'neq') {
     if (v === null) {
-      return `${key} IS NOT NULL`;
+      return `\`${key}\` IS NOT NULL`;
     }
-    return `${key} != ${v}`;
+    return SqlString.format(`\`${key}\` != ?`, v);
   } else if (i == 'in' || i == 'not-in') {
     if (!Array.isArray(v)) {
       console.warn('in instruction need an array value', v);
@@ -290,9 +292,11 @@ function instruction2SqlStmt(
       console.warn('in instruction need an array value size more than 0', v);
       return null;
     }
-    return `${key} ${i == 'in' ? 'IN' : 'NOT IN'} (${v.join(',')})`;
+    return `\`${key}\` ${i == 'in' ? 'IN' : 'NOT IN'} (${v
+      .map((it) => SqlString.escape(it))
+      .join(',')})`;
   } else if (i == 'like') {
-    return `${key} LIKE ${v}`;
+    return `\`${key}\` LIKE ${SqlString.escape(v)}`;
   } else if (i == 'between-and') {
     if (!Array.isArray(v)) {
       console.warn('between-and instruction need an array value', v);
@@ -302,15 +306,15 @@ function instruction2SqlStmt(
       console.warn('between-and instruction need an array value size is 2', v);
       return null;
     }
-    return `${key} BETWEEN ${v[0]} AND ${v[1]}`;
+    return SqlString.format(`\`${key}\` BETWEEN ? AND ?`, v);
   } else if (i == 'less-than-or-eq') {
-    return `${key} <= ${v}`;
+    return SqlString.format(`\`${key}\` <= ?`, v);
   } else if (i == 'less-than') {
-    return `${key} < ${v}`;
+    return SqlString.format(`\`${key}\` < ?`, v);
   } else if (i == 'greater-than-or-eq') {
-    return `${key} >= ${v}`;
+    return SqlString.format(`\`${key}\` >= ?`, v);
   } else if (i == 'greater-than') {
-    return `${key} > ${v}`;
+    return SqlString.format(`\`${key}\` > ?`, v);
   } else {
     console.warn('instruction not support yet', i, v);
     return null;
