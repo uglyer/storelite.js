@@ -277,7 +277,7 @@ function instruction2SqlStmt(
     if (v === null) {
       return `\`${key}\` IS NULL`;
     }
-    return SqlString.format(`${key} = ?`, v);
+    return SqlString.format(`\`${key}\` = ?`, v);
   } else if (i == 'neq') {
     if (v === null) {
       return `\`${key}\` IS NOT NULL`;

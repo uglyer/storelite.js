@@ -13,9 +13,9 @@ test('eq to sql', () => {
     .eq('id', 'id-value')
     .eq({ str: null, bool: true }) as SqlDBBasicWhereConditionImpl<TestModel>;
   expect(model.toSql('and')).toEqual(
-    'id = id-value and str IS NULL and bool = true',
+    "`id` = 'id-value' and `str` IS NULL and `bool` = true",
   );
   expect(model.toSql('or')).toEqual(
-    'id = id-value or str IS NULL or bool = true',
+    "`id` = 'id-value' or `str` IS NULL or `bool` = true",
   );
 });
