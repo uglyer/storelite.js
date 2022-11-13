@@ -10,7 +10,9 @@ interface TestModel {
 
 test('eq to sql', () => {
   const model = new SqlDBBasicWhereConditionImpl<TestModel>()
-    .eq('id', 'id')
+    .eq('id', 'id-value')
     .eq({ str: null, bool: true }) as SqlDBBasicWhereConditionImpl<TestModel>;
-  expect(model.toSql('and')).toEqual('hello world');
+  expect(model.toSql('and')).toEqual(
+    'id = id-value and str IS NULL and bool = true',
+  );
 });

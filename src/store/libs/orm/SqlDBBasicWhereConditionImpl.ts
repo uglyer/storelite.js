@@ -39,7 +39,7 @@ export class SqlDBBasicWhereConditionImpl<T>
   eq(...args: any[]): SqlDBBasicWhereCondition<T> {
     if (args.length == 1 && typeof args[0] == 'object') {
       this.eqObjectImpl(args[0]);
-    } else if (args.length == 1 && typeof args[0] == 'object') {
+    } else if (args.length == 2) {
       this.eqItem(args[0], args[1]);
     } else {
       console.warn('未知的入参类型#eq', args);
@@ -93,7 +93,7 @@ export class SqlDBBasicWhereConditionImpl<T>
   notEq(...args: any[]): SqlDBBasicWhereCondition<T> {
     if (args.length == 1 && typeof args[0] == 'object') {
       this.notEqObjectImpl(args[0]);
-    } else if (args.length == 1 && typeof args[0] == 'object') {
+    } else if (args.length == 2) {
       this.notEqItem(args[0], args[1]);
     } else {
       console.warn('未知的入参类型#eq', args);
@@ -255,7 +255,7 @@ export class SqlDBBasicWhereConditionImpl<T>
     if (stmts.length == 0) {
       return null;
     }
-    return stmts.join(join);
+    return stmts.join(` ${join} `);
   }
 }
 
