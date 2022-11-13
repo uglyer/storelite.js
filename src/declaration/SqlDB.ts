@@ -190,18 +190,6 @@ export interface SqlDBBasicWhereCondition<T> {
   ): SqlDBBasicWhereCondition<T>;
 
   /**
-   * 条件 小于或等于
-   * @param k
-   * @param start
-   * @param end
-   */
-  betweenAnd<K extends keyof T, V extends T[K]>(
-    k: K,
-    start: V,
-    end: V,
-  ): SqlDBBasicWhereCondition<T>;
-
-  /**
    * 条件 模糊匹配(需要自行传递匹配符)
    * @param k
    * @param v
@@ -337,4 +325,14 @@ export type BaseType = string | number | boolean | null;
 /**
  * sql 指令
  */
-export type SqlDBInstruction = 'eq' | 'in' | 'like';
+export type SqlDBInstruction =
+  | 'eq'
+  | 'neq'
+  | 'in'
+  | 'not-in'
+  | 'like'
+  | 'between-and'
+  | 'less-than-or-eq'
+  | 'less-than'
+  | 'greater-than-or-eq'
+  | 'greater-than';
