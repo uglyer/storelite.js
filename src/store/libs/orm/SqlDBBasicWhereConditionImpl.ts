@@ -233,4 +233,86 @@ export class SqlDBBasicWhereConditionImpl<T>
     this.list.push(['like', k as string, v as BaseType]);
     return this;
   }
+
+  /**
+   * 条件转为 sql 语句
+   */
+  toSql(join: 'and' | 'or'): string | null {
+    if (this.list.length == 0) {
+      return null;
+    }
+    const stmts: string[] = [];
+    for (let i = 0; i < this.list.length; i++) {
+      const stmt = instruction2SqlStmt(
+        this.list[i][0],
+        this.list[i][1],
+        this.list[i][2],
+      );
+      if (stmt !== null) {
+        stmts.push(stmt);
+      }
+    }
+    if (stmts.length == 0) {
+      return null;
+    }
+    return stmts.join(join);
+  }
+}
+
+/**
+ * 指令转sql语句片段
+ * @param i
+ * @param key
+ * @param v
+ * @constructor
+ */
+function instruction2SqlStmt(
+  i: SqlDBInstruction,
+  key: string,
+  v: BaseType | Array<BaseType>,
+): string | null {
+  if (i == 'eq') {
+    if (v === null) {
+      return `${key} IS NULL`;
+    }
+    return `${key} = ${v}`;
+  } else if (i == 'neq') {
+    if (v === null) {
+      return `${key} IS NOT NULL`;
+    }
+    return `${key} != ${v}`;
+  } else if (i == 'in' || i == 'not-in') {
+    if (!Array.isArray(v)) {
+      console.warn('in instruction need an array value', v);
+      return null;
+    }
+    if (v.length == 0) {
+      console.warn('in instruction need an array value size more than 0', v);
+      return null;
+    }
+    return `${key} ${i == 'in' ? 'IN' : 'NOT IN'} (${v.join(',')})`;
+  } else if (i == 'like') {
+    return `${key} LIKE ${v}`;
+  } else if (i == 'between-and') {
+    if (!Array.isArray(v)) {
+      console.warn('between-and instruction need an array value', v);
+      return null;
+    }
+    if (v.length != 2) {
+      console.warn('between-and instruction need an array value size is 2', v);
+      return null;
+    }
+    return `${key} BETWEEN ${v[0]} AND ${v[1]}`;
+  } else if (i == 'less-than-or-eq') {
+    return `${key} <= ${v}`;
+  } else if (i == 'less-than') {
+    return `${key} < ${v}`;
+  } else if (i == 'greater-than-or-eq') {
+    return `${key} >= ${v}`;
+  } else if (i == 'greater-than') {
+    return `${key} > ${v}`;
+  } else {
+    console.warn('instruction not support yet', i, v);
+    return null;
+  }
 }
