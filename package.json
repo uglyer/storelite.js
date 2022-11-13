@@ -55,7 +55,8 @@
   },
   "dependencies": {
     "reflect-metadata": "^0.1.13",
-    "sql.js": "^1.8.0"
+    "sql.js": "^1.8.0",
+    "sqlstring": "^2.3.3"
   },
   "devDependencies": {
     "@types/jest": "^29.2.2",
