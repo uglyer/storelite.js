@@ -257,7 +257,7 @@ export class SqlDBBasicWhereConditionImpl<T>
     if (stmts.length == 0) {
       return null;
     }
-    return stmts.join(` ${join} `);
+    return stmts.join(` ${join.toUpperCase()} `);
   }
 }
 

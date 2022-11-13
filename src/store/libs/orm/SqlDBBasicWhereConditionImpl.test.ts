@@ -13,10 +13,10 @@ test('eq to sql', () => {
     .eq('id', 'id-value')
     .eq({ str: null, bool: true }) as SqlDBBasicWhereConditionImpl<TestModel>;
   expect(model.toSql('and')).toEqual(
-    "`id` = 'id-value' and `str` IS NULL and `bool` = true",
+    "`id` = 'id-value' AND `str` IS NULL AND `bool` = true",
   );
   expect(model.toSql('or')).toEqual(
-    "`id` = 'id-value' or `str` IS NULL or `bool` = true",
+    "`id` = 'id-value' OR `str` IS NULL OR `bool` = true",
   );
 });
 
@@ -28,10 +28,10 @@ test('not eq to sql', () => {
       bool: true,
     }) as SqlDBBasicWhereConditionImpl<TestModel>;
   expect(model.toSql('and')).toEqual(
-    "`id` != 'id-value' and `str` IS NOT NULL and `bool` != true",
+    "`id` != 'id-value' AND `str` IS NOT NULL AND `bool` != true",
   );
   expect(model.toSql('or')).toEqual(
-    "`id` != 'id-value' or `str` IS NOT NULL or `bool` != true",
+    "`id` != 'id-value' OR `str` IS NOT NULL OR `bool` != true",
   );
 });
 
@@ -40,6 +40,6 @@ test('in & not in to sql', () => {
     .notIn('time', [4, 5, 6])
     .in('id', ['1', '2', '3']) as SqlDBBasicWhereConditionImpl<TestModel>;
   expect(model.toSql('and')).toEqual(
-    "`time` NOT IN (4,5,6) and `id` IN ('1','2','3')",
+    "`time` NOT IN (4,5,6) AND `id` IN ('1','2','3')",
   );
 });
