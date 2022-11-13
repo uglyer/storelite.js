@@ -110,7 +110,7 @@ export class SqlDBBasicWhereConditionImpl<T>
     const keys = Object.keys(model);
     for (let i = 0; i < keys.length; i++) {
       // @ts-ignore
-      this.eqItem(keys[i], model[keys[i]]);
+      this.notEqItem(keys[i], model[keys[i]]);
     }
   }
 

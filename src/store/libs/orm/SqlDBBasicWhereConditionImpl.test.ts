@@ -19,3 +19,18 @@ test('eq to sql', () => {
     "`id` = 'id-value' or `str` IS NULL or `bool` = true",
   );
 });
+
+test('not eq to sql', () => {
+  const model = new SqlDBBasicWhereConditionImpl<TestModel>()
+    .notEq('id', 'id-value')
+    .notEq({
+      str: null,
+      bool: true,
+    }) as SqlDBBasicWhereConditionImpl<TestModel>;
+  expect(model.toSql('and')).toEqual(
+    "`id` != 'id-value' and `str` IS NOT NULL and `bool` != true",
+  );
+  expect(model.toSql('or')).toEqual(
+    "`id` != 'id-value' or `str` IS NOT NULL or `bool` != true",
+  );
+});
