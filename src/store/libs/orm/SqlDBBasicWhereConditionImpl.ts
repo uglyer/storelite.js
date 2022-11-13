@@ -239,7 +239,7 @@ export class SqlDBBasicWhereConditionImpl<T>
   /**
    * 条件转为 sql 语句
    */
-  toSql(join: 'and' | 'or'): string | null {
+  toSql(join: 'AND' | 'OR'): string | null {
     if (this.list.length == 0) {
       return null;
     }
@@ -257,7 +257,7 @@ export class SqlDBBasicWhereConditionImpl<T>
     if (stmts.length == 0) {
       return null;
     }
-    return stmts.join(` ${join.toUpperCase()} `);
+    return stmts.join(` ${join} `);
   }
 }
 
