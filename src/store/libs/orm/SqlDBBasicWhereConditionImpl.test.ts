@@ -15,4 +15,7 @@ test('eq to sql', () => {
   expect(model.toSql('and')).toEqual(
     'id = id-value and str IS NULL and bool = true',
   );
+  expect(model.toSql('or')).toEqual(
+    'id = id-value or str IS NULL or bool = true',
+  );
 });
