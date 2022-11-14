@@ -237,6 +237,7 @@ export interface SqlDBBasicWhereConditionType<T, C> {
    * @param handler
    */
   or(handler: (condition: SqlDBBasicWhereCondition<T>) => void): C;
+
   /**
    * 条件 全匹配
    * @param k
@@ -422,6 +423,33 @@ export interface SqlDBBasicWhereConditionType<T, C> {
    * @param list
    */
   orNotIn<K extends keyof T, V extends T[K]>(k: K, list: V[]): C;
+}
+
+/**
+ * SqlDB 排序字句
+ * @author uglyer
+ * @date 2022/11/12 22:22
+ */
+export interface SqlDBOrder<T, C> {
+  /**
+   * 排序
+   * @param k
+   * @param order
+   */
+  orderBy<K extends keyof T>(k: K | K[], order: 'ASC' | 'DESC'): C;
+}
+
+/**
+ * SqlDB 分组字句
+ * @author uglyer
+ * @date 2022/11/12 22:22
+ */
+export interface SqlDBGroup<T, C> {
+  /**
+   * 分组
+   * @param k
+   */
+  groupBy<K extends keyof T>(k: K | K[]): C;
 }
 
 /**
