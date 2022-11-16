@@ -478,7 +478,10 @@ export interface SqlDBLimit<C> {
  * @date 2022/11/12 21:51
  */
 export interface SqlDBWhereConditionSelectList<T>
-  extends SqlDBBasicWhereConditionType<T, SqlDBWhereConditionSelectList<T>> {
+  extends SqlDBBasicWhereConditionType<T, SqlDBWhereConditionSelectList<T>>,
+    SqlDBOrder<T, SqlDBWhereConditionSelectList<T>>,
+    SqlDBLimit<SqlDBWhereConditionSelectList<T>>,
+    SqlDBGroup<T, SqlDBWhereConditionSelectList<T>> {
   /**
    * 执行查询语句
    */
@@ -491,7 +494,10 @@ export interface SqlDBWhereConditionSelectList<T>
  * @date 2022/11/12 21:51
  */
 export interface SqlDBWhereConditionSelectOne<T>
-  extends SqlDBBasicWhereConditionType<T, SqlDBWhereConditionSelectOne<T>> {
+  extends SqlDBBasicWhereConditionType<T, SqlDBWhereConditionSelectOne<T>>,
+    SqlDBOrder<T, SqlDBWhereConditionSelectList<T>>,
+    SqlDBLimit<SqlDBWhereConditionSelectList<T>>,
+    SqlDBGroup<T, SqlDBWhereConditionSelectList<T>> {
   /**
    * 执行查询语句
    */
