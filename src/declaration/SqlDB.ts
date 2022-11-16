@@ -473,15 +473,23 @@ export interface SqlDBLimit<C> {
 }
 
 /**
+ * SqlDB 查询语句基类
+ * @author uglyer
+ * @date 2022/11/16 20:05
+ */
+export interface SqlDBBasicSelect<T, C>
+  extends SqlDBBasicWhereConditionType<T, C>,
+    SqlDBOrder<T, C>,
+    SqlDBLimit<C>,
+    SqlDBGroup<T, C> {}
+
+/**
  * SqlDB Where 条件 DSL
  * @author uglyer
  * @date 2022/11/12 21:51
  */
 export interface SqlDBWhereConditionSelectList<T>
-  extends SqlDBBasicWhereConditionType<T, SqlDBWhereConditionSelectList<T>>,
-    SqlDBOrder<T, SqlDBWhereConditionSelectList<T>>,
-    SqlDBLimit<SqlDBWhereConditionSelectList<T>>,
-    SqlDBGroup<T, SqlDBWhereConditionSelectList<T>> {
+  extends SqlDBBasicSelect<T, SqlDBWhereConditionSelectList<T>> {
   /**
    * 执行查询语句
    */
@@ -494,10 +502,7 @@ export interface SqlDBWhereConditionSelectList<T>
  * @date 2022/11/12 21:51
  */
 export interface SqlDBWhereConditionSelectOne<T>
-  extends SqlDBBasicWhereConditionType<T, SqlDBWhereConditionSelectOne<T>>,
-    SqlDBOrder<T, SqlDBWhereConditionSelectList<T>>,
-    SqlDBLimit<SqlDBWhereConditionSelectList<T>>,
-    SqlDBGroup<T, SqlDBWhereConditionSelectList<T>> {
+  extends SqlDBBasicSelect<T, SqlDBWhereConditionSelectOne<T>> {
   /**
    * 执行查询语句
    */
