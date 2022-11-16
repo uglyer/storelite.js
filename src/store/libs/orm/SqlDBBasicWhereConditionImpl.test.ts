@@ -61,7 +61,7 @@ test('between and to sql', () => {
     .betweenAnd('int', 1, 10)
     .like('str', 'id-val%') as SqlDBBasicWhereConditionImpl<TestModel>;
   expect(model.toSql('AND')).toEqual(
-    "`int` (BETWEEN 1 AND 10) AND `str` LIKE 'id-val%'",
+    "(`int` BETWEEN 1 AND 10) AND `str` LIKE 'id-val%'",
   );
 });
 
