@@ -464,10 +464,10 @@ export interface SqlDBGroup<T, C> {
 export interface SqlDBLimit<C> {
   /**
    * 限制记录数
-   * @param offset 过滤多少条数据
    * @param count 需要多少条数据
+   * @param offset 过滤多少条数据
    */
-  limit(offset: number, count: number): C;
+  limit(count: number, offset: number): C;
 
   /**
    * 限制记录数

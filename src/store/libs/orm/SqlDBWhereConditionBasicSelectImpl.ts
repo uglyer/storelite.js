@@ -20,7 +20,13 @@ export abstract class SqlDBWhereConditionBasicSelectImpl<T, C>
    * @param order
    */
   orderBy<K extends keyof T>(k: K | K[], order: 'ASC' | 'DESC'): C {
-    this.sqlOrderBy = `ORDER BY ${Array.isArray(k) ? k.join(',') : k} DESC`;
+    if (Array.isArray(k)) {
+      this.sqlOrderBy = `ORDER BY ${k
+        .map((it) => `\`${it.toString()}\``)
+        .join(',')} DESC`;
+    } else {
+      this.sqlOrderBy = `ORDER BY \`${k.toString()}\` DESC`;
+    }
     return this.getInstance();
   }
 
@@ -31,13 +37,13 @@ export abstract class SqlDBWhereConditionBasicSelectImpl<T, C>
   limit(count: number): C;
   /**
    * 限制记录数
-   * @param offset 过滤多少条数据
    * @param count 需要多少条数据
+   * @param offset 过滤多少条数据
    */
-  limit(offset: number, count: number): C;
+  limit(count: number, offset: number): C;
   limit(v1: number, v2?: number): C {
     if (typeof v2 == 'number') {
-      this.sqlLimit = `LIMIT ${v2} OFFSET ${v1}`;
+      this.sqlLimit = `LIMIT ${v1} OFFSET ${v2}`;
     } else {
       this.sqlLimit = `LIMIT ${v1}`;
     }
@@ -49,7 +55,13 @@ export abstract class SqlDBWhereConditionBasicSelectImpl<T, C>
    * @param k
    */
   groupBy<K extends keyof T>(k: K | K[]): C {
-    this.sqlGroupBy = `GROUP BY ${Array.isArray(k) ? k.join(',') : k}`;
+    if (Array.isArray(k)) {
+      this.sqlGroupBy = `GROUP BY ${k
+        .map((it) => `\`${it.toString()}\``)
+        .join(',')}`;
+    } else {
+      this.sqlGroupBy = `GROUP BY \`${k.toString()}\``;
+    }
     return this.getInstance();
   }
 
