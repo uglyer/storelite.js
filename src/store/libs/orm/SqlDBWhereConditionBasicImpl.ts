@@ -31,11 +31,20 @@ export abstract class SqlDBWhereConditionBasicImpl<T, C>
    */
   protected addCondition(
     type: 'AND' | 'OR',
-    handler: (condition: SqlDBBasicWhereCondition<T>) => void,
+    handler: (
+      condition: SqlDBBasicWhereCondition<T>,
+    ) => 'OR' | 'AND' | void | any,
   ): C {
     const condition = new SqlDBBasicWhereConditionImpl<T>();
-    handler(condition);
-    const sql = condition.toSql(type);
+    let subSqlType = handler(condition);
+    if (
+      !subSqlType ||
+      typeof subSqlType != 'string' ||
+      (subSqlType != 'OR' && subSqlType != 'AND')
+    ) {
+      subSqlType = type;
+    }
+    const sql = condition.toSql(subSqlType);
     if (sql != null) {
       this.whereConditionList.push([type, sql]);
     }
@@ -46,7 +55,9 @@ export abstract class SqlDBWhereConditionBasicImpl<T, C>
    * and 条件
    * @param handler
    */
-  and(handler: (condition: SqlDBBasicWhereCondition<T>) => void): C {
+  and(
+    handler: (condition: SqlDBBasicWhereCondition<T>) => 'OR' | 'AND' | void,
+  ): C {
     return this.addCondition('AND', handler);
   }
 
@@ -54,7 +65,9 @@ export abstract class SqlDBWhereConditionBasicImpl<T, C>
    * or 条件
    * @param handler
    */
-  or(handler: (condition: SqlDBBasicWhereCondition<T>) => void): C {
+  or(
+    handler: (condition: SqlDBBasicWhereCondition<T>) => 'OR' | 'AND' | void,
+  ): C {
     return this.addCondition('OR', handler);
   }
 
