@@ -353,4 +353,23 @@ export abstract class SqlDBWhereConditionBasicImpl<T, C>
   orNotIn<K extends keyof T, V extends T[K]>(k: K, list: V[]): C {
     return this.addCondition('OR', (condition) => condition.notIn(k, list));
   }
+
+  /**
+   * 转为 sql 语句
+   * @protected
+   */
+  protected toSql(): string | null {
+    let sql = '';
+    for (let i = 0; i < this.whereConditionList.length; i++) {
+      if (i == 0) {
+        sql += `(${this.whereConditionList[i][1]})`;
+      } else {
+        sql += ` ${this.whereConditionList[i][0]} (${this.whereConditionList[i][1]})`;
+      }
+    }
+    if (sql == '') {
+      return null;
+    }
+    return sql;
+  }
 }
