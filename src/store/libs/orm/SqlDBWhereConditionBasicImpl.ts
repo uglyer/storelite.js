@@ -1,8 +1,6 @@
 import {
-  BaseType,
   SqlDBBasicWhereCondition,
   SqlDBBasicWhereConditionType,
-  SqlDBInstruction,
 } from '@/declaration/SqlDB';
 import { SqlDBBasicWhereConditionImpl } from '@/store/libs/orm/SqlDBBasicWhereConditionImpl';
 
@@ -18,7 +16,7 @@ export abstract class SqlDBWhereConditionBasicImpl<T, C>
    * 条件集合
    * @protected
    */
-  protected list: Array<['AND' | 'OR', string]> = [];
+  protected whereConditionList: Array<['AND' | 'OR', string]> = [];
 
   /**
    * 获取C实例
@@ -39,7 +37,7 @@ export abstract class SqlDBWhereConditionBasicImpl<T, C>
     handler(condition);
     const sql = condition.toSql(type);
     if (sql != null) {
-      this.list.push([type, sql]);
+      this.whereConditionList.push([type, sql]);
     }
     return this.getInstance();
   }
