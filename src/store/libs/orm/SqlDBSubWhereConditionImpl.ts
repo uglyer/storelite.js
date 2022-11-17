@@ -7,11 +7,11 @@ import {
 const SqlString = require('sqlstring');
 
 /**
- * SqlDB Where 条件 DSL 实现类
+ * SqlDB Where 条件 子句 DSL 实现类
  * @author uglyer
  * @date 2022/11/12 23:58
  */
-export class SqlDBBasicWhereConditionImpl<T>
+export class SqlDBSubWhereConditionImpl<T>
   implements SqlDBBasicWhereCondition<T>
 {
   /**

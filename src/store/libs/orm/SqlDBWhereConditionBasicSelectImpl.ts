@@ -6,7 +6,7 @@ import { SqlDBWhereConditionBasicImpl } from '@/store/libs/orm/SqlDBWhereConditi
  * @author uglyer
  * @date 2022/11/17 22:20
  */
-export abstract class SqlDBBasicSelectImpl<T, C>
+export abstract class SqlDBWhereConditionBasicSelectImpl<T, C>
   extends SqlDBWhereConditionBasicImpl<T, C>
   implements SqlDBBasicSelect<T, C>
 {

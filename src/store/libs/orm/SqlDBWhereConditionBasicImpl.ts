@@ -2,7 +2,7 @@ import {
   SqlDBBasicWhereCondition,
   SqlDBBasicWhereConditionType,
 } from '@/declaration/SqlDB';
-import { SqlDBBasicWhereConditionImpl } from '@/store/libs/orm/SqlDBBasicWhereConditionImpl';
+import { SqlDBSubWhereConditionImpl } from '@/store/libs/orm/SqlDBSubWhereConditionImpl';
 
 /**
  * SqlDB Where 条件 基础 DSL 实现类
@@ -35,7 +35,7 @@ export abstract class SqlDBWhereConditionBasicImpl<T, C>
       condition: SqlDBBasicWhereCondition<T>,
     ) => 'OR' | 'AND' | void | any,
   ): C {
-    const condition = new SqlDBBasicWhereConditionImpl<T>();
+    const condition = new SqlDBSubWhereConditionImpl<T>();
     let subSqlType = handler(condition);
     if (
       !subSqlType ||
