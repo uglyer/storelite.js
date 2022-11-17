@@ -228,15 +228,19 @@ export interface SqlDBBasicWhereCondition<T> {
 export interface SqlDBBasicWhereConditionType<T, C> {
   /**
    * and 条件
-   * @param handler
+   * @param handler default is and
    */
-  and(handler: (condition: SqlDBBasicWhereCondition<T>) => void): C;
+  and(
+    handler: (condition: SqlDBBasicWhereCondition<T>) => 'OR' | 'AND' | void,
+  ): C;
 
   /**
    * or 条件
-   * @param handler
+   * @param handler default is or
    */
-  or(handler: (condition: SqlDBBasicWhereCondition<T>) => void): C;
+  or(
+    handler: (condition: SqlDBBasicWhereCondition<T>) => 'OR' | 'AND' | void,
+  ): C;
 
   /**
    * 条件 全匹配
