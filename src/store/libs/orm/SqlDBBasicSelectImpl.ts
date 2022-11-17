@@ -1,8 +1,6 @@
 import { SqlDBBasicSelect } from '@/declaration/SqlDB';
 import { SqlDBWhereConditionBasicImpl } from '@/store/libs/orm/SqlDBWhereConditionBasicImpl';
 
-const SqlString = require('sqlstring');
-
 /**
  * 筛选语句基类
  * @author uglyer
@@ -53,5 +51,26 @@ export abstract class SqlDBBasicSelectImpl<T, C>
   groupBy<K extends keyof T>(k: K | K[]): C {
     this.sqlGroupBy = `GROUP BY ${Array.isArray(k) ? k.join(',') : k}`;
     return this.getInstance();
+  }
+
+  /**
+   * 转为 sql 语句
+   * @protected
+   */
+  protected toSql(): string | null {
+    let sql = super.toSql() ?? '';
+    if (this.sqlGroupBy !== null) {
+      sql += ` ${this.sqlGroupBy}`;
+    }
+    if (this.sqlOrderBy !== null) {
+      sql += ` ${this.sqlOrderBy}`;
+    }
+    if (this.sqlLimit !== null) {
+      sql += ` ${this.sqlLimit}`;
+    }
+    if (sql == '') {
+      return null;
+    }
+    return sql;
   }
 }
