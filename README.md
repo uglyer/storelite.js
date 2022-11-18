@@ -8,6 +8,7 @@ https://github.com/uglyer/storelite.js
 
 ## 目标
 
+- [ ] ORM (Developing)
 - [ ] 全量更新
 - [ ] 增量差异更新
 - [ ] 事件订阅/观察节点
