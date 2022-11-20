@@ -55,12 +55,6 @@ export interface SqlDBModel<T> {
 
   /**
    * 查找单条记录, 如果sql语句有多个返回结果, 只取第一个
-   * @param sql
-   */
-  findOne(sql: string): T | null;
-
-  /**
-   * 查找单条记录, 如果sql语句有多个返回结果, 只取第一个
    * @param id
    */
   findOneById(id: string | number): T | null;

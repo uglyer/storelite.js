@@ -20,14 +20,6 @@ export class SqlDBModelImpl<T> implements SqlDBModel<T> {
   constructor(protected db: SqlDBExtends, public tableName: string) {}
 
   /**
-   * 查找单条记录, 如果sql语句有多个返回结果, 只取第一个
-   * @param sql
-   */
-  findOne(sql: string): T | null {
-    return undefined;
-  }
-
-  /**
    * 通过指定键值查找单条记录, 如果sql语句有多个返回结果, 只取第一个
    * @param k
    * @param v
