@@ -4,6 +4,7 @@ import {
   SqlDBWhereConditionSelectList,
   SqlDBWhereConditionSelectOne,
 } from '@/declaration/SqlDB';
+import { SqlDBWhereConditionCommonSelectImpl } from '@/store/libs/orm/SqlDBWhereConditionCommonSelectImpl';
 
 /**
  * SqlDBModel 模型实体 ORM 实现类
@@ -37,8 +38,16 @@ export class SqlDBModelImpl<T> implements SqlDBModel<T> {
    * @param model
    */
   findOneBy(model: Partial<T>): T | null;
-  findOneBy(...args: any[]): T | null {
-    return undefined;
+  findOneBy<K extends keyof T, V extends T[K]>(
+    v1: K | Partial<T>,
+    v2?: V,
+  ): T | null {
+    if (typeof v1 == 'object') {
+      return this.selectOne().andEq(v1).do();
+    }
+    return this.selectOne()
+      .andEq(v1, v2 as any)
+      .do();
   }
 
   /**
@@ -46,20 +55,49 @@ export class SqlDBModelImpl<T> implements SqlDBModel<T> {
    * @param id
    */
   findOneById(id: string | number): T | null {
-    return undefined;
+    return this.selectOne()
+      .andEq('id' as any, id as any)
+      .do();
   }
 
   /**
-   * 根据条件筛选数据(列表)
+   * 根据条件筛选数据(列表,所有字段)
    */
-  select(): SqlDBWhereConditionSelectList<T> {
-    return undefined;
+  select(): SqlDBWhereConditionSelectList<T>;
+  /**
+   * 根据条件筛选数据(列表,指定字段)
+   */
+  select(fields: Array<keyof T>): SqlDBWhereConditionSelectList<T>;
+  /**
+   * 根据条件筛选数据(列表,指定字段)
+   */
+  select(fields?: Array<keyof T>): SqlDBWhereConditionSelectList<T> {
+    return new SqlDBWhereConditionCommonSelectImpl(
+      this.db,
+      this.tableName,
+      'list',
+      fields ?? null,
+    );
   }
 
   /**
-   * 根据条件筛选一条记录
+   * 根据条件筛选一条记录(所有字段)
    */
-  selectOne(): SqlDBWhereConditionSelectOne<T> {
-    return undefined;
+  selectOne(): SqlDBWhereConditionSelectOne<T>;
+  /**
+   * 根据条件筛选一条记录(指定字段)
+   */
+  selectOne(fields: Array<keyof T>): SqlDBWhereConditionSelectOne<T>;
+
+  /**
+   * 根据条件筛选一条记录(指定字段)
+   */
+  selectOne(fields?: Array<keyof T>): SqlDBWhereConditionSelectOne<T> {
+    return new SqlDBWhereConditionCommonSelectImpl(
+      this.db,
+      this.tableName,
+      'one',
+      fields ?? null,
+    );
   }
 }
