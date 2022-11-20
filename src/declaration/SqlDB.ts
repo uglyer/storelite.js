@@ -79,14 +79,24 @@ export interface SqlDBModel<T> {
   findOneBy(model: Partial<T>): T | null;
 
   /**
-   * 根据条件筛选数据(列表)
+   * 根据条件筛选数据(列表,所有字段)
    */
   select(): SqlDBWhereConditionSelectList<T>;
 
   /**
-   * 根据条件筛选一条记录
+   * 根据条件筛选数据(列表,指定字段)
+   */
+  select(fields: Array<keyof T>): SqlDBWhereConditionSelectList<T>;
+
+  /**
+   * 根据条件筛选一条记录(所有字段)
    */
   selectOne(): SqlDBWhereConditionSelectOne<T>;
+
+  /**
+   * 根据条件筛选一条记录(指定字段)
+   */
+  selectOne(fields: Array<keyof T>): SqlDBWhereConditionSelectOne<T>;
 }
 
 /**
