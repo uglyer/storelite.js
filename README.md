@@ -4,7 +4,7 @@ https://github.com/uglyer/storelite.js
 
 ## 说明
 
-基于 sql.js(sqlite)实现的状态仓库，支持 web worker、react 绑定
+基于 sql.js(sqlite)实现的状态仓库，支持 web worker、react hook
 
 ## 目标
 
