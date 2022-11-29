@@ -9,6 +9,7 @@ import initSqlJs from 'sql.js/dist/sql-wasm.js';
 import wasmUrl from 'sql.js/dist/sql-wasm.wasm';
 // @ts-ignore
 import json from './test.json';
+import { Column } from '../../../src/decorator/Column';
 
 console.log(wasmUrl);
 
@@ -121,5 +122,20 @@ FROM store_data where table_name = 'panoramas';
 }
 
 init();
+
+class TestModel {
+  @Column('text')
+  id: string = '';
+  @Column('varchar')
+  str: string | null = null;
+  @Column('boolean')
+  bool: boolean = false;
+  @Column('integer')
+  int: number = 0;
+  @Column('float')
+  float: number = 0;
+  @Column('double')
+  double: number = 0;
+}
 
 export default () => null;
