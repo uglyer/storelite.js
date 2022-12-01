@@ -1,6 +1,9 @@
 import { Column } from '@/decorator/Column';
 import { ColumnType } from '@/declaration/ColumnTypes';
-import { EntityColumnTypes } from '@/declaration/EntityColumnTypes';
+import {
+  EntityColumnTypes,
+  EntityJsTypes,
+} from '@/declaration/EntityColumnTypes';
 
 /**
  * 实体类元数据
@@ -11,7 +14,12 @@ class EntityMetadataImpl {
   /**
    * 添加字段
    */
-  addColumn(object: Object, fieldName: string, type: ColumnType) {
+  addColumn(
+    object: Object,
+    fieldName: string,
+    type: ColumnType,
+    jsType: EntityJsTypes,
+  ) {
     let list = Reflect.getMetadata('storelite:type', object);
     if (!Array.isArray(list)) {
       list = [];
@@ -20,9 +28,10 @@ class EntityMetadataImpl {
     (list as EntityColumnTypes[]).push({
       fieldName,
       dbType: type,
-      jsType: 'string',
+      jsType,
     });
+    console.log(list);
   }
 }
 
-const EntityMetadata = new EntityMetadataImpl();
+export const EntityMetadata = new EntityMetadataImpl();

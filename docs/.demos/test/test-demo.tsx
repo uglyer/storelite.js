@@ -136,6 +136,8 @@ class TestModel {
   float: number = 0;
   @Column('double')
   double: number = 0;
+  @Column('json')
+  test: { x: string } = { x: 'x' };
 }
 
 export default () => null;

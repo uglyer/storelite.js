@@ -17,5 +17,12 @@ export interface EntityColumnTypes {
   /**
    * JS 类型
    */
-  jsType: 'string' | 'boolean' | 'number' | 'object';
+  jsType: EntityJsTypes;
 }
+
+/**
+ * 实体 JS 类型
+ * @author Unily
+ * @date 2022/12/1 20:55
+ */
+export type EntityJsTypes = 'string' | 'boolean' | 'number' | 'object';

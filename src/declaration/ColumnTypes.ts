@@ -62,7 +62,8 @@ export type SimpleColumnType =
   | 'blob' // mysql, oracle, sqlite, cockroachdb, sap
   | 'text' // mysql, postgres, mssql, sqlite, cockroachdb, sap
   | 'clob' // oracle, sqlite, sap
-  | 'date'; // mysql, postgres, mssql, oracle, sqlite, spanner
+  | 'date' // mysql, postgres, mssql, oracle, sqlite, spanner
+  | 'json'; // sqlite
 
 /**
  * Any column type column can be.
