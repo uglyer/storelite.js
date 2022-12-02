@@ -30,7 +30,14 @@ class EntityMetadataImpl {
       dbType: type,
       jsType,
     });
-    console.log(list);
+  }
+
+  /**
+   * 获取字段描述
+   * @param object
+   */
+  getColumns(object: Object): EntityColumnTypes[] | null {
+    return Reflect.getMetadata('storelite:type', object) ?? null;
   }
 }
 
