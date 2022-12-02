@@ -20,10 +20,10 @@ class EntityMetadataImpl {
     type: ColumnType,
     jsType: EntityJsTypes,
   ) {
-    let list = Reflect.getMetadata('storelite:type', object);
+    let list = Reflect.getMetadata('storelite:type', object.constructor);
     if (!Array.isArray(list)) {
       list = [];
-      Reflect.defineMetadata('storelite:type', list, object);
+      Reflect.defineMetadata('storelite:type', list, object.constructor);
     }
     (list as EntityColumnTypes[]).push({
       fieldName,
@@ -36,7 +36,7 @@ class EntityMetadataImpl {
    * 获取字段描述
    * @param object
    */
-  getColumns(object: Object): EntityColumnTypes[] | null {
+  getColumns(object: { new (): Object }): EntityColumnTypes[] | null {
     return Reflect.getMetadata('storelite:type', object) ?? null;
   }
 }
