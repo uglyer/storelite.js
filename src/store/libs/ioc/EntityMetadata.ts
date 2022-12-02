@@ -1,4 +1,3 @@
-import { Column } from '@/decorator/Column';
 import { ColumnType } from '@/declaration/ColumnTypes';
 import {
   EntityColumnTypes,
