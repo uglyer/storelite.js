@@ -37,3 +37,24 @@ test('列类型元数据', () => {
     expect(list[i].jsType).toEqual(map[list[i].fieldName]);
   }
 });
+
+test('json 合法性校验', () => {
+  const handlerNotAllowFn = jest.fn();
+  try {
+    class T {
+      @Column('json')
+      json: { data: string } = { data: '' };
+    }
+  } catch (e) {
+    expect(e).toEqual(null);
+  }
+  try {
+    class T {
+      @Column('text')
+      json: { data: string } = { data: '' };
+    }
+  } catch (e) {
+    handlerNotAllowFn();
+  }
+  expect(handlerNotAllowFn).toBeCalled();
+});

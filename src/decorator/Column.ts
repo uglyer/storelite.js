@@ -22,6 +22,15 @@ export function Column(type: ColumnType): PropertyDecorator {
       throw Error('unknown designType');
     }
     const jsType = jsTypeMap.get(designType)!;
+    if (jsType == 'object' && type != 'json') {
+      console.error(
+        'js type is object but db type is not json',
+        type,
+        object,
+        propertyName,
+      );
+      throw Error('js type is object but db type is not json');
+    }
     EntityMetadata.addColumn(object, propertyName.toString(), type, jsType);
   };
 }
