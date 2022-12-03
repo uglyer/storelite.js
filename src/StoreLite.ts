@@ -1,8 +1,9 @@
 import { StoreLiteSync } from '@/declaration/StoreLite';
 // @ts-ignore
 import wasmUrl from 'sql.js/dist/sql-wasm.wasm';
-import { SqlDB } from '@/declaration/SqlDB';
+import { SqlDB, SqlDBExtends } from '@/declaration/SqlDB';
 import { StoreLiteContext } from '@/store/StoreLiteContext';
+import { SqlDBExtendsImpl } from '@/store/libs/SqlDBExtends';
 
 /**
  * StoreLite 入口
@@ -20,7 +21,7 @@ class StoreLite {
    * 获取数据库实例
    * @protected
    */
-  protected static getDB(): Promise<SqlDB> {
+  protected static getDB(): Promise<SqlDBExtends> {
     if (!this.sqlib) {
       // @ts-ignore
       this.sqlib = import('sql.js/dist/sql-wasm.js').then((module) => {
@@ -31,7 +32,10 @@ class StoreLite {
         });
       });
     }
-    return this.sqlib.then((SQL) => new SQL.Database());
+    return this.sqlib.then((SQL) => {
+      const db = new SQL.Database();
+      return new SqlDBExtendsImpl(db);
+    });
   }
 
   /**

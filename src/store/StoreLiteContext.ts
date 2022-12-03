@@ -1,5 +1,5 @@
 import { StoreLiteSync } from '@/declaration/StoreLite';
-import { SqlDB } from '@/declaration/SqlDB';
+import { SqlDB, SqlDBExtends } from '@/declaration/SqlDB';
 
 /**
  * StoreLite 实现上下文
@@ -12,7 +12,7 @@ export class StoreLiteContext<
   TAG = 'observe',
 > implements StoreLiteSync<D, L, TAG>
 {
-  constructor(protected db: SqlDB) {}
+  constructor(protected db: SqlDBExtends) {}
 
   deleteDictionary<TYPE>(target: (target: D) => TYPE): void;
   deleteDictionary<K extends keyof D, TYPE extends D[K]>(key: K): void;
