@@ -1,11 +1,17 @@
 import { SqlDB } from '@/declaration/SqlDB';
 
 /**
- * StoreLiteDynamicFrom
+ * 动态表单
+ * 单表维护数据, 自动创建视图用于查询
  * @author uglyer
  * @date 2022/11/9 22:59
  */
 export class StoreLiteDynamicFrom {
+  /**
+   * 字典表名
+   */
+  static DICTIONARY_TABLE_NAME = '_dictionary_';
+
   constructor(protected db: SqlDB) {}
 
   /**
