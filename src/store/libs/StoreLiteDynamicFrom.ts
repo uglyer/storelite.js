@@ -1,4 +1,4 @@
-import { SqlDB } from '@/declaration/SqlDB';
+import { SqlDB, SqlDBExtends } from '@/declaration/SqlDB';
 
 /**
  * 动态表单
@@ -12,7 +12,9 @@ export class StoreLiteDynamicFrom {
    */
   static DICTIONARY_TABLE_NAME = '_dictionary_';
 
-  constructor(protected db: SqlDB) {}
+  constructor(protected db: SqlDBExtends) {
+    this.initDB();
+  }
 
   /**
    * 初始化数据库
