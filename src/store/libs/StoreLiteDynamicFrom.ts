@@ -10,7 +10,7 @@ export class StoreLiteDynamicFrom {
   /**
    * 字典表名
    */
-  static DICTIONARY_TABLE_NAME = '_dictionary_';
+  static DICTIONARY_TABLE_NAME = 'dictionary';
 
   constructor(protected db: SqlDBExtends) {
     this.initDB();
