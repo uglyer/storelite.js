@@ -6,7 +6,10 @@ import { SqlDB, SqlDBExtends } from '@/declaration/SqlDB';
  * @author uglyer
  * @date 2022/11/9 22:59
  */
-export class StoreLiteDynamicFrom {
+export class StoreLiteDynamicFrom<
+  D = {},
+  L = { [key: string]: { id: string } },
+> {
   /**
    * 字典表名
    */
