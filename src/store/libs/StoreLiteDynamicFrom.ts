@@ -22,6 +22,7 @@ export class StoreLiteDynamicFrom<
     protected entities: { dictionary: D; list: L },
   ) {
     this.initDB();
+    this.initView();
   }
 
   /**
@@ -61,6 +62,15 @@ export class StoreLiteDynamicFrom<
   }
 
   /**
+   * 列表视图名称
+   * @param key
+   * @protected
+   */
+  protected listViewName(key: string): string {
+    return `LIST_${key.toUpperCase()}_VIEW`;
+  }
+
+  /**
    * 创建视图
    * @param tableName
    * @param columns
@@ -85,6 +95,7 @@ FROM store_lite_data where table_name = '${tableName}';`;
   protected initView() {
     const { dictionary, list } = this.entities;
     const dictionaryKeys = Object.keys(dictionary);
+    const listKeys = Object.keys(list);
     for (let i = 0; i < dictionaryKeys.length; i++) {
       const key = dictionaryKeys[i];
       // @ts-ignore
@@ -97,6 +108,20 @@ FROM store_lite_data where table_name = '${tableName}';`;
         throw Error(`get entity metadata size is zero:${obj.toString()}`);
       }
       const tableName = this.dictionaryViewName(key);
+      this.createView(tableName, column);
+    }
+    for (let i = 0; i < listKeys.length; i++) {
+      const key = listKeys[i];
+      // @ts-ignore
+      const obj = list[key];
+      const column = EntityMetadata.getColumns(obj);
+      if (column == null) {
+        throw Error(`get entity metadata error:${obj.toString()}`);
+      }
+      if (column.length == 0) {
+        throw Error(`get entity metadata size is zero:${obj.toString()}`);
+      }
+      const tableName = this.listViewName(key);
       this.createView(tableName, column);
     }
   }
