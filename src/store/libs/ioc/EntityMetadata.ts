@@ -36,7 +36,11 @@ class EntityMetadataImpl {
    * @param object
    */
   getColumns(object: { new (): Object }): EntityColumnTypes[] | null {
-    return Reflect.getMetadata('storelite:type', object) ?? null;
+    return (
+      Reflect.getMetadata('storelite:type', object) ??
+      Reflect.getMetadata('storelite:type', object.constructor) ??
+      null
+    );
   }
 }
 
