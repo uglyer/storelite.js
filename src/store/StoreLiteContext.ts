@@ -19,8 +19,8 @@ export class StoreLiteContext<
    */
   protected dynamicForm: StoreLiteDynamicFrom<D, L>;
 
-  constructor(db: SqlDBExtends) {
-    this.dynamicForm = new StoreLiteDynamicFrom(db);
+  constructor(db: SqlDBExtends, entities: { dictionary: D; list: L }) {
+    this.dynamicForm = new StoreLiteDynamicFrom(db, entities);
   }
 
   deleteDictionary<TYPE>(target: (target: D) => TYPE): void;

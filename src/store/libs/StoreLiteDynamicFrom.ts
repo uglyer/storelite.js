@@ -15,7 +15,10 @@ export class StoreLiteDynamicFrom<
    */
   static DICTIONARY_TABLE_NAME = 'dictionary';
 
-  constructor(protected db: SqlDBExtends) {
+  constructor(
+    protected db: SqlDBExtends,
+    protected entities: { dictionary: D; list: L },
+  ) {
     this.initDB();
   }
 

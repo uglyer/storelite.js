@@ -2,7 +2,6 @@ import { StoreLiteSync } from '@/declaration/StoreLite';
 // @ts-ignore
 import wasmUrl from 'sql.js/dist/sql-wasm.wasm';
 import { SqlDB, SqlDBExtends } from '@/declaration/SqlDB';
-import { StoreLiteContext } from '@/store/StoreLiteContext';
 import { SqlDBExtendsImpl } from '@/store/libs/SqlDBExtends';
 
 /**
@@ -45,9 +44,9 @@ class StoreLite {
     D = {},
     L = { [key: string]: { id: string } },
     TAG = 'observe',
-  >(): Promise<StoreLiteSync<D, L, TAG>> {
+  >(entities: { dictionary: D; list: L }): Promise<StoreLiteSync<D, L, TAG>> {
     const db = await this.getDB();
     const module = await import('./store/StoreLiteContext');
-    return new module.StoreLiteContext<D, L, TAG>(db);
+    return new module.StoreLiteContext<D, L, TAG>(db, entities);
   }
 }
