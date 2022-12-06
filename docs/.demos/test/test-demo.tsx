@@ -10,6 +10,8 @@ import wasmUrl from 'sql.js/dist/sql-wasm.wasm';
 // @ts-ignore
 import json from './test.json';
 import { Column } from '../../../src/decorator/Column';
+import StoreLite from '../../../src/StoreLite';
+import { StoreLiteDynamicFrom } from '../../../src/store/libs/StoreLiteDynamicFrom';
 
 console.log(wasmUrl);
 
@@ -139,5 +141,27 @@ class TestModel {
   @Column('json')
   test: { x: string } = { x: 'x' };
 }
+
+async function test() {
+  const db = await StoreLite.getDB();
+  const from = new StoreLiteDynamicFrom<{ model: TestModel }, {}>(db, {
+    dictionary: { model: new TestModel() },
+    list: {},
+  });
+  from.setDictionary('model', {
+    id: 'x',
+    str: 'str',
+    bool: true,
+    int: 1,
+    float: 1.1,
+    double: Math.PI,
+    test: { x: 'json-data' },
+  });
+  const result = db.exec(`select *
+                          from ${StoreLiteDynamicFrom.TABLE_NAME}`);
+  console.log('字典', result);
+}
+
+test();
 
 export default () => null;
