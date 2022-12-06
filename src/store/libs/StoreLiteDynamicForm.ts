@@ -10,7 +10,7 @@ const SqlString = require('sqlstring');
  * @author uglyer
  * @date 2022/11/9 22:59
  */
-export class StoreLiteDynamicFrom<
+export class StoreLiteDynamicForm<
   D = {},
   L = { [key: string]: { id: string } },
 > {
@@ -38,7 +38,7 @@ export class StoreLiteDynamicFrom<
    */
   protected initDB() {
     const createTableSql = `
-      create table if not exists ${StoreLiteDynamicFrom.TABLE_NAME}
+      create table if not exists ${StoreLiteDynamicForm.TABLE_NAME}
       (
         id
         integer
@@ -89,8 +89,8 @@ export class StoreLiteDynamicFrom<
       )
       .join(',');
     const sql = `CREATE VIEW ${tableName} AS
-SELECT ${StoreLiteDynamicFrom.TABLE_NAME}.id as _id, ${columnSql}
-FROM ${StoreLiteDynamicFrom.TABLE_NAME} where table_name = '${tableName}';`;
+SELECT ${StoreLiteDynamicForm.TABLE_NAME}.id as _id, ${columnSql}
+FROM ${StoreLiteDynamicForm.TABLE_NAME} where table_name = '${tableName}';`;
     this.db.exec(sql);
   }
 
@@ -140,7 +140,7 @@ FROM ${StoreLiteDynamicFrom.TABLE_NAME} where table_name = '${tableName}';`;
   setDictionary<K extends keyof D>(key: K, value: D[K] | null) {
     const tableName = this.dictionaryViewName(key.toString());
     const content = value == null ? null : JSON.stringify(value);
-    const sql = `INSERT OR REPLACE INTO ${StoreLiteDynamicFrom.TABLE_NAME} (table_name,content) VALUES ('${tableName}','${content}')`;
+    const sql = `INSERT OR REPLACE INTO ${StoreLiteDynamicForm.TABLE_NAME} (table_name,content) VALUES ('${tableName}','${content}')`;
     this.db.exec(sql);
   }
 

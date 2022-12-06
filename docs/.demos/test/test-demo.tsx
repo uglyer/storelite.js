@@ -11,7 +11,7 @@ import wasmUrl from 'sql.js/dist/sql-wasm.wasm';
 import json from './test.json';
 import { Column } from '../../../src/decorator/Column';
 import StoreLite from '../../../src/StoreLite';
-import { StoreLiteDynamicFrom } from '../../../src/store/libs/StoreLiteDynamicFrom';
+import { StoreLiteDynamicForm } from '../../../src/store/libs/StoreLiteDynamicForm';
 
 console.log(wasmUrl);
 
@@ -144,7 +144,7 @@ class TestModel {
 
 async function test() {
   const db = await StoreLite.getDB();
-  const from = new StoreLiteDynamicFrom<{ model: TestModel }, {}>(db, {
+  const from = new StoreLiteDynamicForm<{ model: TestModel }, {}>(db, {
     dictionary: { model: new TestModel() },
     list: {},
   });

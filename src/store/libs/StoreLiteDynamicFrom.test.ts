@@ -1,6 +1,6 @@
 import { Column } from '../../decorator/Column';
 import { EntityMetadata } from './ioc/EntityMetadata';
-import { StoreLiteDynamicFrom } from './StoreLiteDynamicFrom';
+import { StoreLiteDynamicForm } from './StoreLiteDynamicForm';
 import StoreLite from '../../StoreLite';
 
 class TestModel {
@@ -22,7 +22,7 @@ class TestModel {
 
 test('字典写测试', async () => {
   const db = await StoreLite.getDB();
-  const from = new StoreLiteDynamicFrom<{ model: TestModel }, {}>(db, {
+  const from = new StoreLiteDynamicForm<{ model: TestModel }, {}>(db, {
     dictionary: { model: new TestModel() },
     list: {},
   });

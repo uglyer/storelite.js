@@ -1,6 +1,6 @@
 import { StoreLiteSync } from '@/declaration/StoreLite';
 import { SqlDB, SqlDBExtends } from '@/declaration/SqlDB';
-import { StoreLiteDynamicFrom } from '@/store/libs/StoreLiteDynamicFrom';
+import { StoreLiteDynamicForm } from '@/store/libs/StoreLiteDynamicForm';
 
 /**
  * StoreLite 实现上下文
@@ -17,10 +17,10 @@ export class StoreLiteContext<
    * 动态表单操作类
    * @protected
    */
-  protected dynamicForm: StoreLiteDynamicFrom<D, L>;
+  protected dynamicForm: StoreLiteDynamicForm<D, L>;
 
   constructor(db: SqlDBExtends, entities: { dictionary: D; list: L }) {
-    this.dynamicForm = new StoreLiteDynamicFrom(db, entities);
+    this.dynamicForm = new StoreLiteDynamicForm(db, entities);
   }
 
   deleteDictionary<TYPE>(target: (target: D) => TYPE): void;
