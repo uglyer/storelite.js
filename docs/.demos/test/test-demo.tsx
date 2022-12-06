@@ -157,9 +157,7 @@ async function test() {
     double: Math.PI,
     test: { x: 'json-data' },
   });
-  const result = db.exec(`select *
-                          from ${StoreLiteDynamicFrom.TABLE_NAME}`);
-  console.log('字典', result);
+  from.getDictionary('model');
 }
 
 test();

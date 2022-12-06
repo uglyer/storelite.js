@@ -35,7 +35,5 @@ test('字典写测试', async () => {
     double: Math.PI,
     json: { data: 'json-data' },
   });
-  const result = db.exec(`select *
-                          from ${StoreLiteDynamicFrom.TABLE_NAME}`);
-  console.log(result);
+  from.getDictionary('model');
 });

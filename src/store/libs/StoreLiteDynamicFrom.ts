@@ -149,6 +149,10 @@ FROM ${StoreLiteDynamicFrom.TABLE_NAME} where table_name = '${tableName}';`;
    * @param key
    */
   getDictionary<K extends keyof D>(key: K): D[K] | null {
+    const tableName = this.dictionaryViewName(key.toString());
+    const sql = `SELECT * FROM ${tableName};`;
+    const result = this.db.exec(sql);
+    console.log(result);
     return null;
   }
 }
