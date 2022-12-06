@@ -2,6 +2,8 @@ import { SqlDB, SqlDBExtends } from '@/declaration/SqlDB';
 import { EntityMetadata } from '@/store/libs/ioc/EntityMetadata';
 import { EntityColumnTypes } from '@/declaration/EntityColumnTypes';
 
+const SqlString = require('sqlstring');
+
 /**
  * 动态表单
  * 单表维护数据, 自动创建视图用于查询
@@ -12,6 +14,10 @@ export class StoreLiteDynamicFrom<
   D = {},
   L = { [key: string]: { id: string } },
 > {
+  /**
+   * 真实存储的表名
+   */
+  static TABLE_NAME = 'store_lite_data';
   /**
    * 字典表名
    */
@@ -32,7 +38,7 @@ export class StoreLiteDynamicFrom<
    */
   protected initDB() {
     const createTableSql = `
-      create table if not exists store_lite_data
+      create table if not exists ${StoreLiteDynamicFrom.TABLE_NAME}
       (
         id
         integer
@@ -83,8 +89,8 @@ export class StoreLiteDynamicFrom<
       )
       .join(',');
     const sql = `CREATE VIEW ${tableName} AS
-SELECT store_lite_data.id as _id, ${columnSql}
-FROM store_lite_data where table_name = '${tableName}';`;
+SELECT ${StoreLiteDynamicFrom.TABLE_NAME}.id as _id, ${columnSql}
+FROM ${StoreLiteDynamicFrom.TABLE_NAME} where table_name = '${tableName}';`;
     this.db.exec(sql);
   }
 
@@ -131,7 +137,18 @@ FROM store_lite_data where table_name = '${tableName}';`;
    * @param key
    * @param value 传递 null 表示删除
    */
-  setDictionary<K extends keyof D>(key: K, value: D[K] | null) {}
+  setDictionary<K extends keyof D>(key: K, value: D[K] | null) {
+    const tableName = this.dictionaryViewName(key.toString());
+    const content = value == null ? null : JSON.stringify(value);
+    const sql = SqlString.format(
+      `INSERT
+    OR REPLACE INTO ? (table_name,content) VALUES (?,?)`,
+      StoreLiteDynamicFrom.TABLE_NAME,
+      tableName,
+      content,
+    );
+    this.db.exec(sql);
+  }
 
   /**
    * 更新字典数据
