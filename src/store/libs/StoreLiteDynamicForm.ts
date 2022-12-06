@@ -139,8 +139,8 @@ FROM ${StoreLiteDynamicForm.TABLE_NAME} where table_name = '${tableName}';`;
    */
   setDictionary<K extends keyof D>(key: K, value: D[K] | null) {
     const tableName = this.dictionaryViewName(key.toString());
-    const content = value == null ? null : JSON.stringify(value);
-    const sql = `INSERT OR REPLACE INTO ${StoreLiteDynamicForm.TABLE_NAME} (table_name,content) VALUES ('${tableName}','${content}')`;
+    const content = value == null ? null : `'${JSON.stringify(value)}'`;
+    const sql = `INSERT OR REPLACE INTO ${StoreLiteDynamicForm.TABLE_NAME} (table_name,content) VALUES ('${tableName}',${content})`;
     this.db.exec(sql);
   }
 
