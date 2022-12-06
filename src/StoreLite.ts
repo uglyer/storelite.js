@@ -9,7 +9,7 @@ import { SqlDBExtendsImpl } from '@/store/libs/SqlDBExtends';
  * @author uglyer
  * @date 2022/11/8 22:44
  */
-class StoreLite {
+export default class StoreLite {
   /**
    * 动态导入 sql.js
    * @protected
@@ -20,7 +20,7 @@ class StoreLite {
    * 获取数据库实例
    * @protected
    */
-  protected static getDB(): Promise<SqlDBExtends> {
+  static getDB(): Promise<SqlDBExtends> {
     if (!this.sqlib) {
       // @ts-ignore
       this.sqlib = import('sql.js/dist/sql-wasm.js').then((module) => {
