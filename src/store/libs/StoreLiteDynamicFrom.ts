@@ -125,4 +125,19 @@ FROM store_lite_data where table_name = '${tableName}';`;
       this.createView(tableName, column);
     }
   }
+
+  /**
+   * 更新字典数据
+   * @param key
+   * @param value 传递 null 表示删除
+   */
+  setDictionary<K extends keyof D>(key: K, value: D[K] | null) {}
+
+  /**
+   * 更新字典数据
+   * @param key
+   */
+  getDictionary<K extends keyof D>(key: K): D[K] | null {
+    return null;
+  }
 }
