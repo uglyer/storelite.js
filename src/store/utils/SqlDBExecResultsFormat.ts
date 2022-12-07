@@ -10,7 +10,7 @@ export class SqlDBExecResultsFormat {
    * 转换为实体类（多个）
    * @param result
    */
-  toEntities<T>(result: SqlDBExecResult): T[] {
+  static toEntities<T>(result: SqlDBExecResult): T[] {
     const list: T[] = [];
     for (let i = 0; i < result.value.length; i++) {
       const obj = {} as any;
@@ -27,7 +27,7 @@ export class SqlDBExecResultsFormat {
    * @param result
    * @param index
    */
-  toEntity<T>(result: SqlDBExecResult, index = 0): T {
+  static toEntity<T>(result: SqlDBExecResult, index = 0): T {
     const obj = {} as any;
     for (let i = 0; i < result.columns.length; i++) {
       obj[result.columns[i]] = result.value[index][i];
