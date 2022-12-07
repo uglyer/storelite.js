@@ -166,7 +166,7 @@ async function test() {
     double: Math.PI,
     test: { x: 'json-data' },
   });
-  from.getDictionary('model');
+  console.log('getDictionary model', from.getDictionary('model'));
 }
 
 test();

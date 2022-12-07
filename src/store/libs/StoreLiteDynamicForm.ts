@@ -167,8 +167,6 @@ FROM ${StoreLiteDynamicForm.TABLE_NAME} where table_name = '${tableName}';`;
     const tableName = this.dictionaryViewName(key.toString());
     const sql = `SELECT *
                  FROM ${tableName};`;
-    const result = this.db.exec(sql);
-    console.log(result);
-    return null;
+    return this.db.findOne(sql);
   }
 }
