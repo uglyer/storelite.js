@@ -12,10 +12,10 @@ export class SqlDBExecResultsFormat {
    */
   static toEntities<T>(result: SqlDBExecResult): T[] {
     const list: T[] = [];
-    for (let i = 0; i < result.value.length; i++) {
+    for (let i = 0; i < result.values.length; i++) {
       const obj = {} as any;
       for (let j = 0; j < result.columns.length; j++) {
-        obj[result.columns[j]] = result.value[i][j];
+        obj[result.columns[j]] = result.values[i][j];
       }
       list.push(obj);
     }
@@ -30,7 +30,7 @@ export class SqlDBExecResultsFormat {
   static toEntity<T>(result: SqlDBExecResult, index = 0): T {
     const obj = {} as any;
     for (let i = 0; i < result.columns.length; i++) {
-      obj[result.columns[i]] = result.value[index][i];
+      obj[result.columns[i]] = result.values[index][i];
     }
     return obj;
   }
