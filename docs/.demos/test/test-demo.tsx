@@ -157,7 +157,16 @@ async function test() {
     double: Math.PI,
     test: { x: 'json-data' },
   });
-  from.getDictionary('model');
+  from.setDictionary('model', {
+    id: 'update',
+    str: 'str',
+    bool: true,
+    int: 1,
+    float: 1.1,
+    double: Math.PI,
+    test: { x: 'json-data' },
+  });
+  console.log('getDictionary model', from.getDictionary('model'));
 }
 
 test();

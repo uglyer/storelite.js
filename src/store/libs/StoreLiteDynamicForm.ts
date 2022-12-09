@@ -135,13 +135,37 @@ FROM ${StoreLiteDynamicForm.TABLE_NAME} where table_name = '${tableName}';`;
   /**
    * 更新字典数据
    * @param key
-   * @param value 传递 null 表示删除
+   * @param value 传递 null 表示删除 TODO 增量更新时需要自行确保数据已经实例化一次
    */
   setDictionary<K extends keyof D>(key: K, value: D[K] | null) {
     const tableName = this.dictionaryViewName(key.toString());
-    const content = value == null ? null : `'${JSON.stringify(value)}'`;
-    const sql = `INSERT OR REPLACE INTO ${StoreLiteDynamicForm.TABLE_NAME} (table_name,content) VALUES ('${tableName}',${content})`;
-    this.db.exec(sql);
+    const content = value == null ? null : JSON.stringify(value);
+    const findSql = SqlString.format(
+      `SELECT id
+       FROM ${StoreLiteDynamicForm.TABLE_NAME}
+       WHERE table_name = ? LIMIT 1`,
+      tableName,
+    );
+    const beforeData = this.db.findOne<{ id: string }>(findSql);
+    if (value == null) {
+      if (beforeData == null) {
+        // 数据不存在不需要任何处理
+        return;
+      }
+      const sql = `DELETE FROM ${StoreLiteDynamicForm.TABLE_NAME} WHERE ID = ${beforeData.id}`;
+      this.db.exec(sql);
+    } else if (beforeData == null) {
+      // 不存在, 插入
+      const sql = `INSERT INTO ${StoreLiteDynamicForm.TABLE_NAME} (table_name, content)
+                   VALUES ('${tableName}', '${content}')`;
+      this.db.exec(sql);
+    } else {
+      // 已经存在, 更新
+      const sql = `UPDATE ${StoreLiteDynamicForm.TABLE_NAME}
+                   set content = '${content}'
+                   WHERE id = ${beforeData.id}`;
+      this.db.exec(sql);
+    }
   }
 
   /**
@@ -150,9 +174,8 @@ FROM ${StoreLiteDynamicForm.TABLE_NAME} where table_name = '${tableName}';`;
    */
   getDictionary<K extends keyof D>(key: K): D[K] | null {
     const tableName = this.dictionaryViewName(key.toString());
-    const sql = `SELECT * FROM ${tableName};`;
-    const result = this.db.exec(sql);
-    console.log(result);
-    return null;
+    const sql = `SELECT *
+                 FROM ${tableName};`;
+    return this.db.findOne(sql);
   }
 }

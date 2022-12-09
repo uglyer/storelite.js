@@ -546,7 +546,7 @@ export interface SqlDBExecResult {
   /**
    * 记录值
    */
-  value: Array<Array<any>>;
+  values: Array<Array<any>>;
 }
 
 /**

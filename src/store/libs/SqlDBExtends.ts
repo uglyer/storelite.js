@@ -8,6 +8,7 @@ import {
   SqlDBWhereConditionSelectList,
   SqlDBWhereConditionSelectOne,
 } from '@/declaration/SqlDB';
+import { SqlDBExecResultsFormat } from '@/store/utils/SqlDBExecResultsFormat';
 
 /**
  * 修饰 SqlDB 注入扩展函数
@@ -66,7 +67,11 @@ export class SqlDBExtendsImpl implements SqlDBExtends {
    * @param sql
    */
   findOne<T>(sql: string): T | null {
-    return undefined;
+    const result = this.exec(sql);
+    if (result.length == 0 || result[0].values.length == 0) {
+      return null;
+    }
+    return SqlDBExecResultsFormat.toEntity(result[0]);
   }
 
   /**
