@@ -76,6 +76,7 @@ export class SqlDBWhereConditionCommonSelectImpl<T>
   do(): T[] | T {
     const sql = this.toSql();
     const result = this.db.exec(sql);
+    console.log(result);
     // TODO 执行结果转换为结构体
     return null as any;
   }
@@ -95,7 +96,7 @@ export class SqlDBWhereConditionCommonSelectImpl<T>
     let sql = `SELECT ${fields}
                FROM ${this.tableName}`;
     if (conditionSql != null) {
-      sql += ` WHERE ${conditionSql}`;
+      sql += ` ${conditionSql}`;
     }
     return sql;
   }

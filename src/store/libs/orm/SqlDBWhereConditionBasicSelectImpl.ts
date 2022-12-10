@@ -71,6 +71,9 @@ export abstract class SqlDBWhereConditionBasicSelectImpl<T, C>
    */
   protected toSql(): string | null {
     let sql = super.toSql() ?? '';
+    if (sql.length > 0) {
+      sql = `WHERE ${sql}`;
+    }
     if (this.sqlGroupBy !== null) {
       sql += ` ${this.sqlGroupBy}`;
     }
