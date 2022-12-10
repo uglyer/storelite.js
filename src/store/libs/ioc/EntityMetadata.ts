@@ -3,6 +3,7 @@ import {
   EntityColumnTypes,
   EntityJsTypes,
 } from '@/declaration/EntityColumnTypes';
+import { SqlDBExecResult } from '@/declaration/SqlDB';
 
 /**
  * 实体类元数据
@@ -20,15 +21,22 @@ class EntityMetadataImpl {
     jsType: EntityJsTypes,
   ): void {
     let list = Reflect.getMetadata('storelite:type', object.constructor);
+    let map = Reflect.getMetadata('storelite:map', object.constructor);
     if (!Array.isArray(list)) {
       list = [];
       Reflect.defineMetadata('storelite:type', list, object.constructor);
     }
-    (list as EntityColumnTypes[]).push({
+    if (!map) {
+      map = new Map<string, EntityColumnTypes>();
+      Reflect.defineMetadata('storelite:type-map', list, object.constructor);
+    }
+    const typeInfo: EntityColumnTypes = {
       fieldName,
       dbType: type,
       jsType,
-    });
+    };
+    (list as EntityColumnTypes[]).push(typeInfo);
+    (map as Map<string, EntityColumnTypes>).set(fieldName, typeInfo);
   }
 
   /**
@@ -39,6 +47,18 @@ class EntityMetadataImpl {
     return (
       Reflect.getMetadata('storelite:type', object) ??
       Reflect.getMetadata('storelite:type', object.constructor) ??
+      null
+    );
+  }
+
+  /**
+   * 获取字段描述表
+   * @param object
+   */
+  getTypeMap<T>(object: T): Map<string, EntityColumnTypes> | null {
+    return (
+      Reflect.getMetadata('storelite:type-map', object) ??
+      Reflect.getMetadata('storelite:type-map', object.constructor) ??
       null
     );
   }
