@@ -28,7 +28,7 @@ class EntityMetadataImpl {
     }
     if (!map) {
       map = new Map<string, EntityColumnTypes>();
-      Reflect.defineMetadata('storelite:type-map', list, object.constructor);
+      Reflect.defineMetadata('storelite:type-map', map, object.constructor);
     }
     const typeInfo: EntityColumnTypes = {
       fieldName,
