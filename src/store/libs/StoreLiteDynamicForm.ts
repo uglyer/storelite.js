@@ -1,4 +1,4 @@
-import { SqlDB, SqlDBExtends } from '@/declaration/SqlDB';
+import { SqlDB, SqlDBExtends, SqlDBModel } from '@/declaration/SqlDB';
 import { EntityMetadata } from '@/store/libs/ioc/EntityMetadata';
 import { EntityColumnTypes } from '@/declaration/EntityColumnTypes';
 
@@ -135,6 +135,15 @@ FROM ${StoreLiteDynamicForm.TABLE_NAME} where table_name = '${tableName}';`;
   }
 
   /**
+   * 通过字典键名称获取字典模型操作对象
+   * @param key
+   * @protected
+   */
+  protected getDictionaryModel<K extends keyof D>(key: K): SqlDBModel<D[K]> {
+    return this.db.getModel(this.entities.dictionary[key]);
+  }
+
+  /**
    * 更新字典数据
    * @param key
    * @param value 传递 null 表示删除 TODO 增量更新时需要自行确保数据已经实例化一次
@@ -177,9 +186,6 @@ FROM ${StoreLiteDynamicForm.TABLE_NAME} where table_name = '${tableName}';`;
    * @param key
    */
   getDictionary<K extends keyof D>(key: K): D[K] | null {
-    const tableName = this.dictionaryViewName(key.toString());
-    const sql = `SELECT *
-                 FROM ${tableName};`;
-    return this.db.findOne(sql);
+    return this.getDictionaryModel(key).selectOne().do();
   }
 }
