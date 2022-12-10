@@ -114,6 +114,7 @@ FROM ${StoreLiteDynamicForm.TABLE_NAME} where table_name = '${tableName}';`;
         throw Error(`get entity metadata size is zero:${obj.toString()}`);
       }
       const tableName = this.dictionaryViewName(key);
+      EntityMetadata.defineViewName(obj, tableName);
       this.createView(tableName, column);
     }
     for (let i = 0; i < listKeys.length; i++) {
@@ -128,6 +129,7 @@ FROM ${StoreLiteDynamicForm.TABLE_NAME} where table_name = '${tableName}';`;
         throw Error(`get entity metadata size is zero:${obj.toString()}`);
       }
       const tableName = this.listViewName(key);
+      EntityMetadata.defineViewName(obj, tableName);
       this.createView(tableName, column);
     }
   }
@@ -152,7 +154,9 @@ FROM ${StoreLiteDynamicForm.TABLE_NAME} where table_name = '${tableName}';`;
         // 数据不存在不需要任何处理
         return;
       }
-      const sql = `DELETE FROM ${StoreLiteDynamicForm.TABLE_NAME} WHERE ID = ${beforeData.id}`;
+      const sql = `DELETE
+                   FROM ${StoreLiteDynamicForm.TABLE_NAME}
+                   WHERE ID = ${beforeData.id}`;
       this.db.exec(sql);
     } else if (beforeData == null) {
       // 不存在, 插入
