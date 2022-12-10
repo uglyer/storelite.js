@@ -9,6 +9,8 @@ import {
   SqlDBWhereConditionSelectOne,
 } from '@/declaration/SqlDB';
 import { SqlDBExecResultsFormat } from '@/store/utils/SqlDBExecResultsFormat';
+import { EntityMetadata } from '@/store/libs/ioc/EntityMetadata';
+import { SqlDBModelImpl } from '@/store/libs/orm/SqlDBModelImpl';
 
 /**
  * 修饰 SqlDB 注入扩展函数
@@ -79,6 +81,7 @@ export class SqlDBExtendsImpl implements SqlDBExtends {
    * @param entity
    */
   getModel<T>(entity: T): SqlDBModel<T> {
-    return undefined;
+    const viewName = EntityMetadata.getViewName(entity);
+    return new SqlDBModelImpl(this, viewName);
   }
 }
