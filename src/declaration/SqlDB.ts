@@ -515,6 +515,11 @@ export interface SqlDBWhereConditionSelectOne<T>
    * 执行查询语句
    */
   do(): T | null;
+
+  /**
+   * 执行查询语句
+   */
+  do<C>(): C | null;
 }
 
 /**

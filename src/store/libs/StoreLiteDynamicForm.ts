@@ -11,8 +11,8 @@ const SqlString = require('sqlstring');
  * @date 2022/11/9 22:59
  */
 export class StoreLiteDynamicForm<
-  D = {},
-  L = { [key: string]: { id: string } },
+  D = { [key: string]: { _id: number } },
+  L = { [key: string]: { _id: number } },
 > {
   /**
    * 真实存储的表名
@@ -139,8 +139,10 @@ FROM ${StoreLiteDynamicForm.TABLE_NAME} where table_name = '${tableName}';`;
    * @param key
    * @protected
    */
-  protected getDictionaryModel<K extends keyof D>(key: K): SqlDBModel<D[K]> {
-    return this.db.getModel(this.entities.dictionary[key]);
+  protected getDictionaryModel<K extends keyof D, T extends D[K]>(
+    key: K,
+  ): SqlDBModel<T> {
+    return this.db.getModel(this.entities.dictionary[key]) as any;
   }
 
   /**
@@ -151,13 +153,9 @@ FROM ${StoreLiteDynamicForm.TABLE_NAME} where table_name = '${tableName}';`;
   setDictionary<K extends keyof D>(key: K, value: D[K] | null) {
     const tableName = this.dictionaryViewName(key.toString());
     const content = value == null ? null : JSON.stringify(value);
-    const findSql = SqlString.format(
-      `SELECT id
-       FROM ${StoreLiteDynamicForm.TABLE_NAME}
-       WHERE table_name = ? LIMIT 1`,
-      tableName,
-    );
-    const beforeData = this.db.findOne<{ id: string }>(findSql);
+    const beforeData = this.getDictionaryModel(key)
+      .selectOne(['_id' as any])
+      .do<{ _id: number }>();
     if (value == null) {
       if (beforeData == null) {
         // 数据不存在不需要任何处理
@@ -165,7 +163,7 @@ FROM ${StoreLiteDynamicForm.TABLE_NAME} where table_name = '${tableName}';`;
       }
       const sql = `DELETE
                    FROM ${StoreLiteDynamicForm.TABLE_NAME}
-                   WHERE ID = ${beforeData.id}`;
+                   WHERE ID = ${beforeData._id}`;
       this.db.exec(sql);
     } else if (beforeData == null) {
       // 不存在, 插入
@@ -176,7 +174,7 @@ FROM ${StoreLiteDynamicForm.TABLE_NAME} where table_name = '${tableName}';`;
       // 已经存在, 更新
       const sql = `UPDATE ${StoreLiteDynamicForm.TABLE_NAME}
                    set content = '${content}'
-                   WHERE id = ${beforeData.id}`;
+                   WHERE id = ${beforeData._id}`;
       this.db.exec(sql);
     }
   }
