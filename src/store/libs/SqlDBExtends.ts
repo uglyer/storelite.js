@@ -82,6 +82,6 @@ export class SqlDBExtendsImpl implements SqlDBExtends {
    */
   getModel<T>(entity: T): SqlDBModel<T> {
     const viewName = EntityMetadata.getViewName(entity);
-    return new SqlDBModelImpl(this, viewName);
+    return new SqlDBModelImpl(this, entity, viewName);
   }
 }

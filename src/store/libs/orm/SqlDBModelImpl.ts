@@ -15,9 +15,14 @@ export class SqlDBModelImpl<T> implements SqlDBModel<T> {
   /**
    * SqlDBModel 模型实体 ORM 实现类
    * @param db 数据库对象
+   * @param entity 使用装饰器的实例对象
    * @param tableName 模型对应的表名
    */
-  constructor(protected db: SqlDBExtends, public tableName: string) {}
+  constructor(
+    protected db: SqlDBExtends,
+    public readonly entity: T,
+    public readonly tableName: string,
+  ) {}
 
   /**
    * 通过指定键值查找单条记录, 如果sql语句有多个返回结果, 只取第一个
@@ -66,6 +71,7 @@ export class SqlDBModelImpl<T> implements SqlDBModel<T> {
   select(fields?: Array<keyof T>): SqlDBWhereConditionSelectList<T> {
     return new SqlDBWhereConditionCommonSelectImpl(
       this.db,
+      this.entity,
       this.tableName,
       'list',
       fields ?? null,
@@ -87,6 +93,7 @@ export class SqlDBModelImpl<T> implements SqlDBModel<T> {
   selectOne(fields?: Array<keyof T>): SqlDBWhereConditionSelectOne<T> {
     return new SqlDBWhereConditionCommonSelectImpl(
       this.db,
+      this.entity,
       this.tableName,
       'one',
       fields ?? null,

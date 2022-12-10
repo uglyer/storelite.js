@@ -4,6 +4,7 @@ import {
   SqlDBWhereConditionSelectOne,
 } from '@/declaration/SqlDB';
 import { SqlDBWhereConditionBasicSelectImpl } from '@/store/libs/orm/SqlDBWhereConditionBasicSelectImpl';
+import { EntityMetadata } from '@/store/libs/ioc/EntityMetadata';
 
 /**
  * 数据筛选
@@ -25,6 +26,7 @@ export class SqlDBWhereConditionCommonSelectImpl<T>
 
   constructor(
     protected db: SqlDB,
+    protected entity: T,
     protected tableName: string,
     protected type: 'one' | 'list',
     protected fields: Array<keyof T> | null,
@@ -69,15 +71,26 @@ export class SqlDBWhereConditionCommonSelectImpl<T>
   /**
    * 执行查询语句
    */
-  do(): T;
+  do(): T | null;
   /**
    * 执行查询语句
    */
-  do(): T[] | T {
+  do(): T[] | T | null {
     const sql = this.toSql();
     const result = this.db.exec(sql);
-    console.log(result);
-    // TODO 执行结果转换为结构体
+    if (this.type == 'one') {
+      if (result.length == 0 || result[0].values.length == 0) {
+        return null;
+      }
+      return EntityMetadata.toEntity(this.entity, result[0]);
+    } else if (this.type == 'list') {
+      if (result.length == 0 || result[0].values.length == 0) {
+        return [];
+      }
+      return EntityMetadata.toEntities(this.entity, result[0]);
+    } else {
+      console.error('the type is not support yet', this.type);
+    }
     return null as any;
   }
 
