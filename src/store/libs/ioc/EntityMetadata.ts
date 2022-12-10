@@ -100,7 +100,8 @@ class EntityMetadataImpl {
     }
     const list: T[] = [];
     for (let i = 0; i < result.values.length; i++) {
-      const obj = {} as any;
+      // @ts-ignore
+      const obj = new object['constructor']() as any;
       for (let j = 0; j < result.columns.length; j++) {
         const key = result.columns[j];
         const type = map.get(key);
@@ -128,7 +129,8 @@ class EntityMetadataImpl {
       console.error('未定义类型表', object);
       throw Error('未定义类型表');
     }
-    const obj = {} as any;
+    // @ts-ignore
+    const obj = new object['constructor']() as any;
     for (let j = 0; j < result.columns.length; j++) {
       const key = result.columns[j];
       const type = map.get(key);
