@@ -1,8 +1,4 @@
-import { ColumnType } from '@/declaration/ColumnTypes';
-import {
-  EntityColumnTypes,
-  EntityJsTypes,
-} from '@/declaration/EntityColumnTypes';
+import { EntityColumnTypes } from '@/declaration/EntityColumnTypes';
 import { SqlDBExecResult } from '@/declaration/SqlDB';
 
 /**
@@ -131,6 +127,29 @@ class EntityMetadataImpl {
       }
     }
     return obj;
+  }
+
+  /**
+   * 转换为建表语句
+   * @param object
+   */
+  toCreateTableSql<T>(object: T): string {
+    const tableName = this.getViewName(object);
+    const columns = this.getColumns(object as any);
+    if (!columns) {
+      console.error('未定义类型', object);
+      throw Error('未定义类型');
+    }
+    const fields = columns
+      .map((it) => {
+        let sql = `${it.fieldName} ${it.dbType}`;
+        if (it.primaryKey) {
+          sql += ' not null primary key';
+        }
+        return sql;
+      })
+      .join(',');
+    return `create table ${tableName}(${fields})`;
   }
 }
 
