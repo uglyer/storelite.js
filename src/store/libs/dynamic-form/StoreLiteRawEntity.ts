@@ -6,7 +6,7 @@ import { Column } from '@/decorator/Column';
  * @date 2022/12/11 20:28
  */
 export class StoreLiteRawEntity {
-  @Column('bigint')
+  @Column('bigint', { primaryKey: true })
   id: number = 0;
   @Column('varchar')
   tableName: string = '';

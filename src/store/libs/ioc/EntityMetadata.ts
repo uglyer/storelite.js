@@ -14,12 +14,7 @@ class EntityMetadataImpl {
   /**
    * 添加字段
    */
-  addColumn(
-    object: Object,
-    fieldName: string,
-    type: ColumnType,
-    jsType: EntityJsTypes,
-  ): void {
+  addColumn(object: Object, typeInfo: EntityColumnTypes): void {
     let list = Reflect.getMetadata('storelite:type', object.constructor);
     let map = Reflect.getMetadata('storelite:map', object.constructor);
     if (!Array.isArray(list)) {
@@ -30,13 +25,8 @@ class EntityMetadataImpl {
       map = new Map<string, EntityColumnTypes>();
       Reflect.defineMetadata('storelite:type-map', map, object.constructor);
     }
-    const typeInfo: EntityColumnTypes = {
-      fieldName,
-      dbType: type,
-      jsType,
-    };
     (list as EntityColumnTypes[]).push(typeInfo);
-    (map as Map<string, EntityColumnTypes>).set(fieldName, typeInfo);
+    (map as Map<string, EntityColumnTypes>).set(typeInfo.fieldName, typeInfo);
   }
 
   /**
