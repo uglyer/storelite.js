@@ -18,6 +18,10 @@ export interface EntityColumnTypes {
    * JS 类型
    */
   jsType: EntityJsTypes;
+  /**
+   * 主键
+   */
+  primaryKey: boolean;
 }
 
 /**
