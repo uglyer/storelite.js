@@ -69,6 +69,7 @@ export type SimpleColumnType =
  * Any column type column can be.
  */
 export type ColumnType =
+  | PrimaryGeneratedColumnType
   | WithPrecisionColumnType
   | WithLengthColumnType
   | SimpleColumnType
