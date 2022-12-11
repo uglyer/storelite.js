@@ -34,6 +34,7 @@ export class StoreLiteDynamicForm<
   /**
    * 初始化数据库
    * 执行建表
+   * TODO 新增 环境变量 string, meta 字段 用于参数所属的环境变量, 其他原数据信息
    * @protected
    */
   protected initDB() {
