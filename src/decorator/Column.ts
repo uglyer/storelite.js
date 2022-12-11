@@ -39,6 +39,7 @@ export function Column(
     }
     const typeInfo: EntityColumnTypes = {
       fieldName: propertyName.toString(),
+      dbFieldName: propertyName.toString(),
       dbType: type,
       jsType,
       primaryKey: false,

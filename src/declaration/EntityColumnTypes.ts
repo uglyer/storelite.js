@@ -7,9 +7,13 @@ import { ColumnType } from '@/declaration/ColumnTypes';
  */
 export interface EntityColumnTypes {
   /**
-   * 字段名称
+   * js 字段名称
    */
   fieldName: string;
+  /**
+   * 数据库 字段名称
+   */
+  dbFieldName: string;
   /**
    * 数据库类型
    */
