@@ -48,10 +48,7 @@ export class StoreLiteDynamicForm<
       StoreLiteDynamicForm.TABLE_NAME,
     );
     this.db.exec(EntityMetadata.toCreateTableSql(this.rawTableEntity));
-    const createIndexSql = `
-      create index store_lite_data_id_table_name_content_index on store_lite_data (id, table_name, content);
-    `;
-    this.db.exec(createIndexSql);
+    this.db.exec(EntityMetadata.toCreateIndexSql(this.rawTableEntity));
   }
 
   /**
