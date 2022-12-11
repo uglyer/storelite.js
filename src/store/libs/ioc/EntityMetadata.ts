@@ -142,7 +142,7 @@ class EntityMetadataImpl {
     }
     const fields = columns
       .map((it) => {
-        let sql = `${it.fieldName} ${it.dbType}`;
+        let sql = `${it.dbFieldName} ${it.dbType}`;
         if (it.primaryKey) {
           sql += ' not null primary key';
         }

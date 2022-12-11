@@ -1,8 +1,7 @@
 import { SqlDB, SqlDBExtends, SqlDBModel } from '@/declaration/SqlDB';
 import { EntityMetadata } from '@/store/libs/ioc/EntityMetadata';
 import { EntityColumnTypes } from '@/declaration/EntityColumnTypes';
-
-const SqlString = require('sqlstring');
+import { StoreLiteRawEntity } from '@/store/libs/dynamic-form/StoreLiteRawEntity';
 
 /**
  * 动态表单
@@ -23,6 +22,12 @@ export class StoreLiteDynamicForm<
    */
   static DICTIONARY_TABLE_NAME = 'dictionary';
 
+  /**
+   * 原始表实体类
+   * @protected
+   */
+  protected rawTableEntity = new StoreLiteRawEntity();
+
   constructor(
     protected db: SqlDBExtends,
     protected entities: { dictionary: D; list: L },
@@ -38,21 +43,11 @@ export class StoreLiteDynamicForm<
    * @protected
    */
   protected initDB() {
-    const createTableSql = `
-      create table if not exists ${StoreLiteDynamicForm.TABLE_NAME}
-      (
-        id
-        integer
-        not
-        null
-        primary
-        key,
-        table_name
-        char,
-        content
-        json
-      )`;
-    this.db.exec(createTableSql);
+    EntityMetadata.defineViewName(
+      this.rawTableEntity,
+      StoreLiteDynamicForm.TABLE_NAME,
+    );
+    this.db.exec(EntityMetadata.toCreateTableSql(this.rawTableEntity));
     const createIndexSql = `
       create index store_lite_data_id_table_name_content_index on store_lite_data (id, table_name, content);
     `;
@@ -86,7 +81,8 @@ export class StoreLiteDynamicForm<
   protected createView(tableName: string, columns: EntityColumnTypes[]) {
     const columnSql = columns
       .map(
-        (it) => `json_extract(content, '$.${it.fieldName}') as ${it.fieldName}`,
+        (it) =>
+          `json_extract(content, '$.${it.dbFieldName}') as ${it.fieldName}`,
       )
       .join(',');
     const sql = `CREATE VIEW ${tableName} AS
