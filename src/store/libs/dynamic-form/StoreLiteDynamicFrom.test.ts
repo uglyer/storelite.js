@@ -1,7 +1,7 @@
-import { Column } from '../../decorator/Column';
-import { EntityMetadata } from './ioc/EntityMetadata';
+import { Column } from '../../../decorator/Column';
+import { EntityMetadata } from '../ioc/EntityMetadata';
 import { StoreLiteDynamicForm } from './StoreLiteDynamicForm';
-import StoreLite from '../../StoreLite';
+import StoreLite from '../../../StoreLite';
 
 class TestModel {
   @Column('text')

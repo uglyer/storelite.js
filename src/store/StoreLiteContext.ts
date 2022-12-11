@@ -1,6 +1,6 @@
 import { StoreLiteSync } from '@/declaration/StoreLite';
 import { SqlDB, SqlDBExtends } from '@/declaration/SqlDB';
-import { StoreLiteDynamicForm } from '@/store/libs/StoreLiteDynamicForm';
+import { StoreLiteDynamicForm } from '@/store/libs/dynamic-form/StoreLiteDynamicForm';
 
 /**
  * StoreLite 实现上下文
