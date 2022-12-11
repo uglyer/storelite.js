@@ -91,6 +91,11 @@ export interface SqlDBModel<T> {
    * 根据条件筛选一条记录(指定字段)
    */
   selectOne(fields: Array<keyof T>): SqlDBWhereConditionSelectOne<T>;
+
+  /**
+   * 根据条件删除记录
+   */
+  delete(): SqlDBWhereConditionDelete<T>;
 }
 
 /**
@@ -505,7 +510,7 @@ export interface SqlDBWhereConditionSelectList<T>
 }
 
 /**
- * SqlDB Where 条件 DSL
+ * SqlDB Where 条件 筛选 DSL
  * @author uglyer
  * @date 2022/11/12 21:51
  */
@@ -520,6 +525,19 @@ export interface SqlDBWhereConditionSelectOne<T>
    * 执行查询语句
    */
   do<C>(): C | null;
+}
+
+/**
+ * SqlDB Where 条件 删除 DSL
+ * @author uglyer
+ * @date 2022/12/11 17:26
+ */
+export interface SqlDBWhereConditionDelete<T>
+  extends SqlDBBasicWhereConditionType<T, SqlDBWhereConditionDelete<T>> {
+  /**
+   * 执行删除语句
+   */
+  do(): number;
 }
 
 /**
