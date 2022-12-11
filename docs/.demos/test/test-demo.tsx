@@ -11,7 +11,7 @@ import wasmUrl from 'sql.js/dist/sql-wasm.wasm';
 import json from './test.json';
 import { Column } from '../../../src/decorator/Column';
 import StoreLite from '../../../src/StoreLite';
-import { StoreLiteDynamicForm } from '../../../src/store/libs/StoreLiteDynamicForm';
+import { StoreLiteDynamicForm } from '../../../src/store/libs/dynamic-form/StoreLiteDynamicForm';
 
 console.log(wasmUrl);
 
@@ -123,7 +123,7 @@ FROM store_data where table_name = 'panoramas';
   // store_table content like 363.0849609375 ms
 }
 
-init();
+// init();
 
 class TestModel {
   @Column('text')
