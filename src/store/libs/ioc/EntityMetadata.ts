@@ -151,6 +151,24 @@ class EntityMetadataImpl {
       .join(',');
     return `create table ${tableName}(${fields})`;
   }
+
+  /**
+   * 创建索引
+   * @param object
+   */
+  toCreateIndexSql<T>(object: T): string {
+    const tableName = this.getViewName(object);
+    const columns = this.getColumns(object as any);
+    if (!columns) {
+      console.error('未定义类型', object);
+      throw Error('未定义类型');
+    }
+    return columns
+      .map((it) => {
+        return `create index ${tableName}_${it.dbFieldName} on ${tableName} (${it.dbFieldName});`;
+      })
+      .join('\n');
+  }
 }
 
 export const EntityMetadata = new EntityMetadataImpl();
