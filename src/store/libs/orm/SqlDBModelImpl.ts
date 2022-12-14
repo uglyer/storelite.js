@@ -1,10 +1,12 @@
 import {
   SqlDBExtends,
   SqlDBModel,
+  SqlDBWhereConditionDelete,
   SqlDBWhereConditionSelectList,
   SqlDBWhereConditionSelectOne,
 } from '@/declaration/SqlDB';
 import { SqlDBWhereConditionCommonSelectImpl } from '@/store/libs/orm/SqlDBWhereConditionCommonSelectImpl';
+import { SqlDBWhereConditionDeleteImpl } from '@/store/libs/orm/SqlDBWhereConditionDeleteImpl';
 
 /**
  * SqlDBModel 模型实体 ORM 实现类
@@ -97,6 +99,17 @@ export class SqlDBModelImpl<T> implements SqlDBModel<T> {
       this.tableName,
       'one',
       fields ?? null,
+    );
+  }
+
+  /**
+   * 根据条件删除记录
+   */
+  delete(): SqlDBWhereConditionDelete<T> {
+    return new SqlDBWhereConditionDeleteImpl(
+      this.db,
+      this.entity,
+      this.tableName,
     );
   }
 }
