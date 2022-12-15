@@ -129,6 +129,14 @@ FROM ${StoreLiteDynamicForm.TABLE_NAME} where table_name = '${tableName}';`;
   }
 
   /**
+   * 获取原始存储结构模型操作对象
+   * @protected
+   */
+  protected getRawModel(): SqlDBModel<StoreLiteRawEntity> {
+    return this.db.getModel(this.rawTableEntity);
+  }
+
+  /**
    * 通过字典键名称获取字典模型操作对象
    * @param key
    * @protected
@@ -155,10 +163,7 @@ FROM ${StoreLiteDynamicForm.TABLE_NAME} where table_name = '${tableName}';`;
         // 数据不存在不需要任何处理
         return;
       }
-      const sql = `DELETE
-                   FROM ${StoreLiteDynamicForm.TABLE_NAME}
-                   WHERE ID = ${beforeData._id}`;
-      this.db.exec(sql);
+      this.getRawModel().delete().andEq({ id: beforeData._id }).do();
     } else if (beforeData == null) {
       // 不存在, 插入
       const sql = `INSERT INTO ${StoreLiteDynamicForm.TABLE_NAME} (table_name, content)
